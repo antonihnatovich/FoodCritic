@@ -12,17 +12,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private ListView listView;
+    private String[] values = new String[] { "Fruits", "Vegetables", "Drinks", "Bake" };
+    private List<String> list = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        listView = (ListView)findViewById(R.id.listView);
+        for(int i = 0; i < values.length; i++)
+            list.add(values[i]);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.info_layout, R.id.label, values);
+        listView.setAdapter(adapter);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
