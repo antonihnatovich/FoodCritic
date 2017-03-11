@@ -15,6 +15,9 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.yoant.foodcritic.adapters.MenuAdapter;
+import com.example.yoant.foodcritic.core.Category;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,19 +25,28 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView listView;
-    private String[] values = new String[] { "Fruits", "Vegetables", "Drinks", "Bake" };
+    private String[] values = new String[] { "Fruits", "Vegeta", "Drinks", "Bake" };
     private List<String> list = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         listView = (ListView)findViewById(R.id.listView);
-        for(int i = 0; i < values.length; i++)
-            list.add(values[i]);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.info_layout, R.id.label, values);
-        listView.setAdapter(adapter);
+        List<Category> categoryList = new ArrayList<>();
+        categoryList.add(new Category("Fruits", R.drawable.screen, 255));
+        categoryList.add(new Category("Vegetable", R.drawable.screen, 254));
+        categoryList.add(new Category("Drinks", R.drawable.screen, 253));
+        categoryList.add(new Category("Bake", R.drawable.screen, 252));
+       // for(int i = 0; i < values.length; i++)
+          //  list.add(values[i]);
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.menu_item, R.id.name_view, values);
+        //listView.setAdapter(adapter);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +64,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        MenuAdapter adapter = new MenuAdapter(this, categoryList);
+        listView.setAdapter(adapter);
     }
 
     @Override
