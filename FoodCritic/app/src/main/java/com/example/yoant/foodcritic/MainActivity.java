@@ -17,6 +17,7 @@ import android.widget.ListView;
 
 import com.example.yoant.foodcritic.adapters.MenuAdapter;
 import com.example.yoant.foodcritic.core.Category;
+import com.example.yoant.foodcritic.core.MainMenuElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +43,6 @@ public class MainActivity extends AppCompatActivity
         categoryList.add(new Category("Vegetable", R.drawable.screen, 254));
         categoryList.add(new Category("Drinks", R.drawable.screen, 253));
         categoryList.add(new Category("Bake", R.drawable.screen, 252));
-       // for(int i = 0; i < values.length; i++)
-          //  list.add(values[i]);
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.menu_item, R.id.name_view, values);
-        //listView.setAdapter(adapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +61,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        MenuAdapter adapter = new MenuAdapter(this, categoryList);
+        MenuAdapter adapter = new MenuAdapter(this, MainMenuElement.menuElements);
         listView.setAdapter(adapter);
     }
 

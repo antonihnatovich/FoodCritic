@@ -12,31 +12,32 @@ import android.widget.TextView;
 import com.example.yoant.foodcritic.MainActivity;
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.core.Category;
+import com.example.yoant.foodcritic.core.MainMenuElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuAdapter extends BaseAdapter {
     private final int CATEGORIES_COUNT = 4;
-    private List<Category> categoryList = new ArrayList<>(CATEGORIES_COUNT);
+    private MainMenuElement[] mCategoryList;
     private Context context;
     private LayoutInflater layoutInflater = null;
 
     private class ViewHolder {
         ImageView imageView;
         TextView nameTextView;
-        TextView countTextView;
+        TextView descriptionTextView;
     }
 
-    public MenuAdapter(MainActivity mainActivity, List<Category> categoryList) {
-        this.categoryList = categoryList;
+    public MenuAdapter(MainActivity mainActivity, MainMenuElement[] categoryList) {
+        mCategoryList = categoryList;
         context = mainActivity;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return categoryList.size();
+        return mCategoryList.length;
     }
 
     @Override
@@ -52,15 +53,16 @@ public class MenuAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder = new ViewHolder();
-        View mainView = layoutInflater.inflate(R.layout.menu_item, null);
+        View mainView = layoutInflater.inflate(R.layout.menu_element, null);
 
-        viewHolder.imageView = (ImageView) mainView.findViewById(R.id.menu_image_view);
-        viewHolder.countTextView = (TextView) mainView.findViewById(R.id.menu_count_view);
-        viewHolder.nameTextView = (TextView) mainView.findViewById(R.id.menu_name_view);
+        viewHolder.imageView = (ImageView) mainView.findViewById(R.id.menu_element_icon);
+        viewHolder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        viewHolder.descriptionTextView = (TextView) mainView.findViewById(R.id.menu_element_description);
+        viewHolder.nameTextView = (TextView) mainView.findViewById(R.id.menu_element_name);
 
-        viewHolder.imageView.setImageResource(categoryList.get(position).getPicId());
-        viewHolder.countTextView.setText("Count " + categoryList.get(position).getItemsCount());
-        viewHolder.nameTextView.setText(categoryList.get(position).getName());
+        viewHolder.imageView.setImageResource(mCategoryList[position].getmElementLogoId());
+        viewHolder.descriptionTextView.setText(mCategoryList[position].getmElementDescription());
+        viewHolder.nameTextView.setText(mCategoryList[position].getmElementName());
 
         return mainView;
     }
