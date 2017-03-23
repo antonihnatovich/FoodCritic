@@ -9,13 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.yoant.foodcritic.MainActivity;
+import com.example.yoant.foodcritic.view.activities.MainActivity;
 import com.example.yoant.foodcritic.R;
-import com.example.yoant.foodcritic.core.Category;
 import com.example.yoant.foodcritic.core.MainMenuElement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MenuAdapter extends BaseAdapter {
     private final int CATEGORIES_COUNT = 4;
