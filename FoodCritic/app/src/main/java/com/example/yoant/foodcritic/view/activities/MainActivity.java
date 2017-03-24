@@ -1,9 +1,12 @@
 package com.example.yoant.foodcritic.view.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,18 +15,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.MenuAdapter;
 import com.example.yoant.foodcritic.core.Category;
 import com.example.yoant.foodcritic.core.MainMenuElement;
+import com.example.yoant.foodcritic.view.fragments.VitaminsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private ListView listView;
     private String[] values = new String[] { "Fruits", "Vegeta", "Drinks", "Bake" };
@@ -38,11 +44,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         listView = (ListView)findViewById(R.id.listView);
-        List<Category> categoryList = new ArrayList<>();
-        categoryList.add(new Category("Fruits", R.drawable.screen, 255));
-        categoryList.add(new Category("Vegetable", R.drawable.screen, 254));
-        categoryList.add(new Category("Drinks", R.drawable.screen, 253));
-        categoryList.add(new Category("Bake", R.drawable.screen, 252));
+        final Intent intent = new Intent(this, VitaminsActivity.class);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +65,17 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         MenuAdapter adapter = new MenuAdapter(this, MainMenuElement.menuElements);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(intent);
+//                VitaminsFragment fragment = new VitaminsFragment();
+//                FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.fragment_main, fragment);
+//                fragmentTransaction.commit();
+            }
+        });
     }
 
     @Override
@@ -120,5 +133,14 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(this, VitaminsFragment.class);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        VitaminsFragment fragment = new VitaminsFragment();
+        transaction.replace(R.id.content_main, fragment);
+        transaction.commit();
     }
 }

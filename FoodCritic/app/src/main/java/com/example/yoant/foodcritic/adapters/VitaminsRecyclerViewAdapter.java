@@ -1,30 +1,32 @@
 package com.example.yoant.foodcritic.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.yoant.foodcritic.R;
-import com.example.yoant.foodcritic.view.fragments.VitaminsFragment.OnListFragmentInteractionListener;
-import com.example.yoant.foodcritic.view.fragments.dummy.DummyContent.DummyItem;
+import com.example.yoant.foodcritic.core.FoodGroup;
 
+import java.util.Arrays;
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class VitaminsRecyclerViewAdapter extends RecyclerView.Adapter<VitaminsRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private Context context;
+    private FoodGroup[] mValues;
+    private SparseBooleanArray selectedItems;
+    private SparseBooleanArray animationItemsIndexes;
+    private boolean reverceAllAnimations = false;
+    private static int currentlySelectedIndex = -1;
 
-    public VitaminsRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public VitaminsRecyclerViewAdapter(FoodGroup[] items) {
         mValues = items;
-        mListener = listener;
     }
 
     @Override
@@ -36,43 +38,43 @@ public class VitaminsRecyclerViewAdapter extends RecyclerView.Adapter<VitaminsRe
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        FoodGroup foodGroup = mValues[position];
+        holder.groupName.setText(foodGroup.getGroupName());
+        holder.groupImage.setImageResource(foodGroup.getImageResource());
+        holder.itemsCount.setText(foodGroup.getItemsCount());
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
+//        holder.mView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (null != mListener)
+//                    mListener.onListFragmentInteraction(holder.mItem);
+//
+//            }
+//        });
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mValues.length;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public View mView;
+        public TextView groupName, itemsCount;
+        public ImageView groupImage;
+        public LinearLayout groupContainer;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            groupName = (TextView) view.findViewById(R.id.menu_element_name);
+            itemsCount = (TextView) view.findViewById(R.id.menu_element_description);
+            groupImage = (ImageView) view.findViewById(R.id.menu_element_icon);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString();
         }
     }
 }

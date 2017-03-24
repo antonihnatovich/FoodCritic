@@ -1,10 +1,11 @@
 package com.example.yoant.foodcritic.core;
 
-public class Item {
+public class Product {
 
     private long picID;
     private String name;
     private double energeticValue;
+    private double carb;
     private double protein;
     private double sugars;
     private double fat;
@@ -25,7 +26,17 @@ public class Item {
     private double sodium;
     private double zinc;
 
-    public Item(long picID, String name, double energeticValue, double protein, double sugars, double fat, double vitA, double vitB1, double vitB2, double vitB3, double vitB5, double vitB6, double vitB9, double vitC, double vitE, double vitK, double calcium, double iron, double magnesium, double phosphorus, double sodium, double zinc) {
+    public Product() {
+    }
+
+    public Product(String name, int protein, int fat, int energeticValue, int carb) {
+        this.name = name;
+        this.carb = carb;
+        this.protein = protein;
+        this.fat = fat;
+    }
+
+    public Product(long picID, String name, double energeticValue, double protein, double sugars, double fat, double vitA, double vitB1, double vitB2, double vitB3, double vitB5, double vitB6, double vitB9, double vitC, double vitE, double vitK, double calcium, double iron, double magnesium, double phosphorus, double sodium, double zinc) {
         this.picID = picID;
         this.name = name;
         this.energeticValue = energeticValue;
@@ -224,6 +235,14 @@ public class Item {
 
     public void setZinc(double zinc) {
         this.zinc = zinc;
+    }
+
+    public double getCarb() {
+        return carb;
+    }
+
+    public void setCarb(double carb) {
+        this.carb = carb;
     }
 
 }
