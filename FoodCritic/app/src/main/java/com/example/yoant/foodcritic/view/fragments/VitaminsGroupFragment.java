@@ -3,15 +3,22 @@ package com.example.yoant.foodcritic.view.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.GroupFragmentAdapter;
 import com.example.yoant.foodcritic.core.FoodGroup;
+import com.example.yoant.foodcritic.helper.ItemDecorationRecyclerViewColumns;
 
 public class VitaminsGroupFragment extends Fragment {
 
@@ -31,6 +38,7 @@ public class VitaminsGroupFragment extends Fragment {
     }
 
     public VitaminsGroupFragment() {
+        //setHasOptionsMenu(true);
     }
 
     @Override
@@ -42,21 +50,51 @@ public class VitaminsGroupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_vitamins, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_vitamins_group, container, false);
         rootView.setTag(TAG);
+        //ActionBar toolbar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+//        ((AppCompatActivity)getActivity()).getSupportActionBar();
+//        setHasOptionsMenu(true);
 
-        mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-        mRecyclerView = (RecyclerView)rootView.findViewById(R.id.products_recycler_view_fragment);
+        Toolbar toolbar = (Toolbar)rootView.findViewById(R.id.toolbar);
+        AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mRecyclerView = (RecyclerView)rootView.findViewById(R.id.recyclerView);
+        setRecyclerViewLayoutManager();
         mAdapter = new GroupFragmentAdapter(mDataSet);
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
     }
 
+    public void setRecyclerViewLayoutManager(){
+        int scrollPosition = 0;
+
+        if(mRecyclerView.getLayoutManager() != null)
+            scrollPosition = ((LinearLayoutManager)mRecyclerView.getLayoutManager())
+                    .findFirstVisibleItemPosition();
+
+        mLayoutManager = new GridLayoutManager(getActivity(), 2);
+        mRecyclerView.addItemDecoration(new ItemDecorationRecyclerViewColumns(
+                getResources().getDimensionPixelSize(R.dimen.vitaminsGroupItemSpacing),
+                2
+        ));
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.scrollToPosition(scrollPosition);
+    }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
         savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER, mCurrentLayoutManagerType);
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.main, menu);
     }
 
     private void initialiseDataSet(){

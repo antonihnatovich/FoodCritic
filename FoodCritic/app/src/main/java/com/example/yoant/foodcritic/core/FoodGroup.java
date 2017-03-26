@@ -11,12 +11,12 @@ public class FoodGroup {
     }
 
     public static FoodGroup[] items = new FoodGroup[]{
-            new FoodGroup(R.drawable.screen, 205, "Fruits"),
-            new FoodGroup(R.drawable.screen, 304, "Vegetables"),
-            new FoodGroup(R.drawable.screen, 16, "Drinks"),
-            new FoodGroup(R.drawable.screen, 12, "Bake"),
-            new FoodGroup(R.drawable.screen, 18, "Cereals"),
-            new FoodGroup(R.drawable.screen, 104, "Dishes")
+            new FoodGroup(R.drawable.vitamins_fruit_logo, 205, "Fruits"),
+            new FoodGroup(R.drawable.vitamins_vegetable_logo, 304, "Vegetables"),
+            new FoodGroup(R.drawable.vitamins_drink_logo, 16, "Drinks"),
+            new FoodGroup(R.drawable.vitamins_bake_logo, 12, "Bake"),
+            new FoodGroup(R.drawable.vitamins_cereals_logo, 18, "Cereals"),
+            new FoodGroup(R.drawable.vitamins_dishes_logo, 104, "Dishes")
     };
 
     public FoodGroup(int imageResource, int itemsCount, String groupName) {

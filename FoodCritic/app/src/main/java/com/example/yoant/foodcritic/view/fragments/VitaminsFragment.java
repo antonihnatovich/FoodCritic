@@ -56,28 +56,37 @@ public class VitaminsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_vitamins_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_vitamins, container, false);
         rootView.setTag(TAG);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_list);
+
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_vitamins);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
 
-        if (savedInstanceState != null)
-            mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState.getSerializable(KEY_LAYOUT_MANAGER);
-
-        //setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-
+        setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
         mAdapter = new VitaminsRecyclerViewAdapter(mDataset);
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER, mCurrentLayoutManagerType);
-        super.onSaveInstanceState(savedInstanceState);
+//    @Override
+//    public void onSaveInstanceState(Bundle savedInstanceState) {
+//        savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER, mCurrentLayoutManagerType);
+//        super.onSaveInstanceState(savedInstanceState);
+//    }
+
+    public void setRecyclerViewLayoutManager(LayoutManagerType type){
+        int scrollPosition = 0;
+
+        if(mRecyclerView.getLayoutManager() != null)
+            scrollPosition = ((LinearLayoutManager)mRecyclerView.getLayoutManager())
+                    .findFirstVisibleItemPosition();
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.scrollToPosition(scrollPosition);
     }
 
     private void initDataset() {

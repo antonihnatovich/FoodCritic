@@ -41,7 +41,7 @@ public class VitaminsRecyclerViewAdapter extends RecyclerView.Adapter<VitaminsRe
         FoodGroup foodGroup = mValues[position];
         holder.groupName.setText(foodGroup.getGroupName());
         holder.groupImage.setImageResource(foodGroup.getImageResource());
-        holder.itemsCount.setText(foodGroup.getItemsCount());
+        holder.itemsCount.setText(""+foodGroup.getItemsCount());
 
 //        holder.mView.setOnClickListener(new View.OnClickListener() {
 //            @Override
