@@ -1,6 +1,7 @@
 package com.example.yoant.foodcritic.view.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -14,11 +15,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.GroupFragmentAdapter;
+import com.example.yoant.foodcritic.adapters.RecyclerViewItemClickListener;
 import com.example.yoant.foodcritic.core.FoodGroup;
 import com.example.yoant.foodcritic.helper.ItemDecorationRecyclerViewColumns;
+import com.example.yoant.foodcritic.view.activities.MainActivity;
 
 public class VitaminsGroupFragment extends Fragment {
 
@@ -80,6 +84,20 @@ public class VitaminsGroupFragment extends Fragment {
                 getResources().getDimensionPixelSize(R.dimen.vitaminsGroupItemSpacing),
                 2
         ));
+
+        mRecyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(getContext(), mRecyclerView, new RecyclerViewItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getContext(), "Item clicled at " + position + " position", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+                Toast.makeText(getContext(), "Hello from long " + position, Toast.LENGTH_SHORT).show();
+            }
+        }));
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.scrollToPosition(scrollPosition);
     }
