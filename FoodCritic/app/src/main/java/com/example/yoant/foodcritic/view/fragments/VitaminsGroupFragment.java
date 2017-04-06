@@ -23,6 +23,7 @@ import com.example.yoant.foodcritic.adapters.RecyclerViewItemClickListener;
 import com.example.yoant.foodcritic.core.FoodGroup;
 import com.example.yoant.foodcritic.helper.ItemDecorationRecyclerViewColumns;
 import com.example.yoant.foodcritic.view.activities.MainActivity;
+import com.example.yoant.foodcritic.view.activities.ProductsActivity;
 
 public class VitaminsGroupFragment extends Fragment {
 
@@ -34,12 +35,7 @@ public class VitaminsGroupFragment extends Fragment {
     protected GroupFragmentAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected FoodGroup[] mDataSet;
-    protected LayoutManagerType mCurrentLayoutManagerType;
 
-    private enum LayoutManagerType {
-        GRID_LAYOUT_MANAGER,
-        LINEAR_LAYOUT_MANAGER
-    }
 
     public VitaminsGroupFragment() {
         //setHasOptionsMenu(true);
@@ -56,23 +52,23 @@ public class VitaminsGroupFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_vitamins_group, container, false);
         rootView.setTag(TAG);
-        //ActionBar toolbar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-//        ((AppCompatActivity)getActivity()).getSupportActionBar();
-//        setHasOptionsMenu(true);
 
         Toolbar toolbar = (Toolbar)rootView.findViewById(R.id.toolbar);
         AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        final Intent intent = new Intent(this.getActivity(), ProductsActivity.class);
         mRecyclerView = (RecyclerView)rootView.findViewById(R.id.recyclerView);
-        setRecyclerViewLayoutManager();
-        mAdapter = new GroupFragmentAdapter(mDataSet);
+        setRecyclerViewLayoutManager(intent);
+        mAdapter = new GroupFragmentAdapter(mDataSet, getContext());
         mRecyclerView.setAdapter(mAdapter);
+
+
 
         return rootView;
     }
 
-    public void setRecyclerViewLayoutManager(){
+    public void setRecyclerViewLayoutManager(final Intent intent){
+
         int scrollPosition = 0;
 
         if(mRecyclerView.getLayoutManager() != null)
@@ -88,8 +84,6 @@ public class VitaminsGroupFragment extends Fragment {
         mRecyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(getContext(), mRecyclerView, new RecyclerViewItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getContext(), "Item clicled at " + position + " position", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
 
@@ -104,7 +98,6 @@ public class VitaminsGroupFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
-        savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER, mCurrentLayoutManagerType);
         super.onSaveInstanceState(savedInstanceState);
     }
 

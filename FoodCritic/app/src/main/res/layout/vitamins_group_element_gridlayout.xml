@@ -15,8 +15,6 @@
         android:id="@+id/vitaminsGroupElementItemLogo"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:background="@color/colorPrimaryDark"
-
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_below="@id/vitaminsGroupElementItemName"/>

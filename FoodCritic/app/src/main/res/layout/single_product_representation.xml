@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground">
+
+    <ImageView
+        android:contentDescription="@string/menu_element_logo_content_description"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:id="@+id/single_product_representation_image"
+        android:src="@drawable/vitamins_fuit_logo"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/test_product_name"
+        android:id="@+id/single_product_representation_name"
+        android:layout_marginStart="22dp"
+        android:layout_toEndOf="@id/single_product_representation_image"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/single_product_representation_fat"
+        android:text="@string/fat"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="22dp"
+        android:layout_below="@id/single_product_representation_name"
+        android:layout_toEndOf="@id/single_product_representation_image"
+        />
+
+    <TextView
+        android:id="@+id/single_product_representation_fat_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_product_value"
+        android:textSize="15sp"
+        android:layout_below="@id/single_product_representation_fat"
+        android:layout_toEndOf="@id/single_product_representation_image"
+        android:layout_marginStart="22dp"/>
+
+    <TextView
+        android:id="@+id/single_product_representation_prot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/prot"
+        android:textSize="16sp"
+        android:layout_below="@id/single_product_representation_name"
+        android:layout_toEndOf="@id/single_product_representation_fat_value"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="22dp"/>
+
+    <TextView
+        android:id="@+id/single_product_representation_prot_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_product_value"
+        android:textSize="15sp"
+        android:layout_below="@id/single_product_representation_prot"
+        android:layout_toEndOf="@id/single_product_representation_fat_value"
+        android:layout_marginStart="22dp"/>
+
+    <TextView
+        android:id="@+id/single_product_representation_carb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/carb"
+        android:textSize="16sp"
+        android:layout_below="@id/single_product_representation_name"
+        android:layout_toEndOf="@id/single_product_representation_prot_value"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="22dp"/>
+
+    <TextView
+        android:id="@+id/single_product_representation_carb_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_product_value"
+        android:textSize="15sp"
+        android:layout_below="@id/single_product_representation_carb"
+        android:layout_toEndOf="@id/single_product_representation_prot_value"
+        android:layout_marginStart="22dp"/>
+
+    <TextView
+        android:id="@+id/single_product_representation_energy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/energy"
+        android:textSize="16sp"
+        android:layout_below="@id/single_product_representation_name"
+        android:layout_toEndOf="@id/single_product_representation_carb_value"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="22dp"/>
+
+    <TextView
+        android:id="@+id/single_product_representation_energy_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_product_value"
+        android:textSize="15sp"
+        android:layout_below="@id/single_product_representation_energy"
+        android:layout_toEndOf="@id/single_product_representation_carb_value"
+        android:layout_marginStart="22dp"/>
+
+</RelativeLayout>

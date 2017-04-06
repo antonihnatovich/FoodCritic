@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.yoant.foodcritic.view.fragments.ProductDetailFragment"
+    android:background="@android:color/white"
+    android:id="@+id/detail_complex">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/vitamins_fruit_logo"
+        android:id="@+id/detail_imageview"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apple"
+        android:textSize="18sp"
+        android:id="@+id/detail_name"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/detail_imageview"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/detail_separator"
+        android:layout_below="@id/detail_name"
+        android:text="________________________"
+        android:layout_centerHorizontal="true"
+        android:textSize="14sp"
+        />
+
+    <ScrollView
+        android:id="@+id/detail_scrollview"
+        android:layout_marginStart="20dp"
+        android:layout_below="@id/detail_separator"
+        android:layout_width="match_parent"
+        android:layout_height="270dp">
+        <TextView
+            android:layout_marginStart="20dp"
+            android:id="@+id/detail_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="@string/hello_blank_fragment"/>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/detail_button"
+        android:layout_below="@id/detail_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Ok"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:background="@color/colorAccent"/>
+
+</RelativeLayout>
