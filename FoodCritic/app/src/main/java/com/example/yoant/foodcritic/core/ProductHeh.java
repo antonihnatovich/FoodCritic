@@ -17,14 +17,9 @@ public class ProductHeh {
             , new ProductHeh(R.drawable.vitamins_fruit_logo, "Apple", 12, 13, 14, 15),
             new ProductHeh(R.drawable.vitamins_fruit_logo, "Arbuz", 20, 21, 22, 23),
             new ProductHeh(R.drawable.vitamins_fruit_logo, "Banana", 16, 17, 18, 19)
-
-
-
-
-
-
     };
 
+    public ProductHeh(){}
 
     public ProductHeh(int picID, String name, double energeticValue, double carb, double protein, double fat) {
         this.picID = picID;

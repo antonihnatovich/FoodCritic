@@ -8,11 +8,13 @@ import android.util.Log;
 
 public class ProductSQLiteHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "products.db";
-    public static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "products.db";
+    private static final int DATABASE_VERSION = 1;
 
     public static final String TABLE_PRODUCTS = "products";
     public static final String PRODUCTS_COLUMN_ID = "_id";
+    public static final String PRODUCTS_COLUMN_NAME = "name";
+    public static final String PRODUCT_COLUMN_IMAGE = "image";
     public static final String PRODUCT_COLUMN_FAT = "fat";
     public static final String PRODUCT_COLUMN_PROTEIN = "prot";
     public static final String PRODUCT_COLUMN_CARBON = "carb";
@@ -22,6 +24,8 @@ public class ProductSQLiteHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_CREATE = "create table " + TABLE_PRODUCTS + "( "
             + PRODUCTS_COLUMN_ID + " integer primary key autoincrement, "
+            + PRODUCT_COLUMN_IMAGE + " integer, "
+            + PRODUCTS_COLUMN_NAME + " text not null, "
             + PRODUCT_COLUMN_PROTEIN + " text not null, "
             + PRODUCT_COLUMN_FAT + " text not null, "
             + PRODUCT_COLUMN_CARBON + " text not null, "
