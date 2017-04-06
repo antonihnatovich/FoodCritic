@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ProductHeh {
+    private long id;
     private int picID;
     private String name;
     private double energeticValue;
@@ -76,5 +77,13 @@ public class ProductHeh {
 
     public void setFat(double fat) {
         this.fat = fat;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

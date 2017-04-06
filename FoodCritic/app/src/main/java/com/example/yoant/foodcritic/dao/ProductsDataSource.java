@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.yoant.foodcritic.core.ProductHeh;
 import com.example.yoant.foodcritic.helper.sqlite.ProductSQLiteHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProductsDataSource {
 
     private SQLiteDatabase mDatabase;
@@ -61,8 +64,31 @@ public class ProductsDataSource {
 
     }
 
+    public void deleteProduct(ProductHeh productHeh) {
+        long id = productHeh.getId();
+        mDatabase.delete(ProductSQLiteHelper.TABLE_PRODUCTS,
+                ProductSQLiteHelper.PRODUCTS_COLUMN_ID + " = " + id, null);
+    }
+
+    public List<ProductHeh> getAllProducts() {
+        List<ProductHeh> products = new ArrayList<>();
+
+        Cursor cursor = mDatabase.query(ProductSQLiteHelper.TABLE_PRODUCTS,
+                allColumns, null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            ProductHeh productHeh = converCursorToProduct(cursor);
+            products.add(productHeh);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return products;
+    }
+
     private ProductHeh converCursorToProduct(Cursor cursor) {
         ProductHeh productHeh = new ProductHeh();
+        productHeh.setId(cursor.getLong(0));
         productHeh.setName(cursor.getString(cursor.getColumnIndex(ProductSQLiteHelper.PRODUCTS_COLUMN_NAME)));
         productHeh.setProtein(Double.parseDouble(cursor.getString(cursor.getColumnIndex(ProductSQLiteHelper.PRODUCT_COLUMN_PROTEIN))));
         productHeh.setFat(Double.parseDouble(cursor.getString(cursor.getColumnIndex(ProductSQLiteHelper.PRODUCT_COLUMN_FAT))));
