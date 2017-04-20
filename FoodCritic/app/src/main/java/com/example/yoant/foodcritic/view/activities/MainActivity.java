@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,12 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.MenuAdapter;
-import com.example.yoant.foodcritic.core.Category;
-import com.example.yoant.foodcritic.core.MainMenuElement;
+import com.example.yoant.foodcritic.models.MainMenuElement;
 import com.example.yoant.foodcritic.view.fragments.VitaminsFragment;
 
 import java.util.ArrayList;

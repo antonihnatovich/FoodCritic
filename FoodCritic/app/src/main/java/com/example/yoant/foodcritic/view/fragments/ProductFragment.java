@@ -2,23 +2,17 @@ package com.example.yoant.foodcritic.view.fragments;
 
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yoant.foodcritic.R;
-import com.example.yoant.foodcritic.adapters.ProductAdapter;
-import com.example.yoant.foodcritic.core.ProductHeh;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.yoant.foodcritic.models.Product;
 
 public class ProductFragment extends android.app.Fragment {
-    private ProductHeh[] mDataSet;
+    private Product[] mDataSet;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
 
@@ -58,6 +52,6 @@ public class ProductFragment extends android.app.Fragment {
     }
 
     private void initDataSet() {
-        mDataSet = ProductHeh.products;
+        mDataSet = Product.products;
     }
 }

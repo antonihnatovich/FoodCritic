@@ -1,4 +1,4 @@
-package com.example.yoant.foodcritic.core;
+package com.example.yoant.foodcritic.models;
 
 import com.example.yoant.foodcritic.R;
 

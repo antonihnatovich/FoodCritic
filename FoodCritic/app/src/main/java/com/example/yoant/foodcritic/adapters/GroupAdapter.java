@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yoant.foodcritic.R;
-import com.example.yoant.foodcritic.core.FoodGroup;
+import com.example.yoant.foodcritic.models.FoodGroup;
 
 import java.util.List;
 

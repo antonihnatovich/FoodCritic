@@ -11,10 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.yoant.foodcritic.R;
-import com.example.yoant.foodcritic.core.FoodGroup;
-
-import java.util.Arrays;
-import java.util.List;
+import com.example.yoant.foodcritic.models.FoodGroup;
 
 public class VitaminsRecyclerViewAdapter extends RecyclerView.Adapter<VitaminsRecyclerViewAdapter.ViewHolder> {
 

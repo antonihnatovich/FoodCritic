@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.yoant.foodcritic.view.activities.MainActivity;
 import com.example.yoant.foodcritic.R;
-import com.example.yoant.foodcritic.core.MainMenuElement;
+import com.example.yoant.foodcritic.models.MainMenuElement;
 
 public class MenuAdapter extends BaseAdapter {
     private final int CATEGORIES_COUNT = 4;

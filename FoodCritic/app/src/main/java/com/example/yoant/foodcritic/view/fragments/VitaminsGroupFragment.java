@@ -4,7 +4,6 @@ package com.example.yoant.foodcritic.view.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,9 +19,8 @@ import android.widget.Toast;
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.GroupFragmentAdapter;
 import com.example.yoant.foodcritic.adapters.RecyclerViewItemClickListener;
-import com.example.yoant.foodcritic.core.FoodGroup;
+import com.example.yoant.foodcritic.models.FoodGroup;
 import com.example.yoant.foodcritic.helper.ItemDecorationRecyclerViewColumns;
-import com.example.yoant.foodcritic.view.activities.MainActivity;
 import com.example.yoant.foodcritic.view.activities.ProductsActivity;
 
 public class VitaminsGroupFragment extends Fragment {

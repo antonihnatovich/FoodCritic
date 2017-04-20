@@ -1,8 +1,8 @@
 package com.example.yoant.foodcritic.view.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,13 +14,9 @@ import android.widget.Toast;
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.ProductAdapter;
 import com.example.yoant.foodcritic.adapters.RecyclerViewItemClickListener;
-import com.example.yoant.foodcritic.core.ProductHeh;
+import com.example.yoant.foodcritic.models.Product;
 import com.example.yoant.foodcritic.helper.DividerItemDecoration;
-import com.example.yoant.foodcritic.helper.RecyclerViewItemDivider;
-import com.example.yoant.foodcritic.helper.VerticalSpaceItemDecoration;
 import com.example.yoant.foodcritic.view.fragments.ProductDetailFragment;
-
-import static android.support.v7.recyclerview.R.attr.layoutManager;
 
 public class ProductsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -36,11 +32,9 @@ public class ProductsActivity extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.recycler_products_activity);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(new ProductAdapter(ProductHeh.products, getApplicationContext()));
-
-
-
-
+        ProductAdapter adapter = new ProductAdapter(Product.products, getApplicationContext());
+//        adapter.setHasStableIds(true);
+        recyclerView.setAdapter(adapter);
 
         recyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(getApplicationContext(), recyclerView, new RecyclerViewItemClickListener.OnItemClickListener() {
             @Override
@@ -71,8 +65,8 @@ public class ProductsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProductDetailFragment productDetailFragment = new ProductDetailFragment();
-                productDetailFragment.show(fragmentManager, "DialogFragment");
+                Intent intent = new Intent(getApplicationContext(), CreateProductActivity.class);
+                startActivity(intent);
             }
         });
     }

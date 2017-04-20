@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.yoant.foodcritic.view.activities.CreateProductActivity">
+
+
+
+    <TextView
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/labelImage"
+        android:text="Image"
+        android:textSize="24sp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_toRightOf="@id/labelImage"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="130dp"
+        android:src="@drawable/photo_image"
+        android:id="@+id/create_product_image_button"/>
+
+    <ScrollView
+        android:id="@+id/scrollview_create_product"
+        android:layout_below="@id/create_product_image_button"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id = "@+id/product_name_layout_create_product"
+
+            android:layout_width="match_parent"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:inputType="textPersonName"
+                android:id="@+id/edit_text_product_name_create_product"
+                android:hint="Product Name"
+                android:textAllCaps="false"
+                android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id = "@+id/product_fat_layout_create_product"
+            android:layout_below="@id/product_name_layout_create_product"
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_text_product_fat_create_product"
+                android:hint="Fat Value"
+                android:inputType="numberDecimal"
+                android:textAllCaps="false"
+                android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id = "@+id/product_protein_layout_create_product"
+            android:layout_below="@id/product_fat_layout_create_product"
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_text_product_protein_create_product"
+                android:hint="Protein Value"
+                android:inputType="numberDecimal"
+                android:textAllCaps="false"
+                android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id = "@+id/product_carbon_layout_create_product"
+            android:layout_below="@id/product_protein_layout_create_product"
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_text_product_carbon_create_product"
+                android:hint="Carbonhydrate Value"
+                android:inputType="numberDecimal"
+                android:textAllCaps="false"
+                android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id = "@+id/product_energetic_layout_create_product"
+            android:layout_below="@id/product_carbon_layout_create_product"
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:id="@+id/edit_text_product_energetic_create_product"
+                android:hint="Energetic Value"
+                android:textAllCaps="false"
+                android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+
+
+    <Button
+        android:id="@+id/create_button_create_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scrollview_create_product"
+        android:text="Create"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="#FFD740"
+        android:layout_marginEnd="15dp"
+        />
+
+</RelativeLayout>

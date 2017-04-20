@@ -20,11 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.VitaminsActivity"></activity>
+        <activity android:name=".view.activities.VitaminsActivity" />
         <activity
             android:name=".view.activities.ProductsActivity"
             android:label="@string/title_activity_products"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".view.activities.CreateProductActivity"></activity>
     </application>
 
 </manifest>

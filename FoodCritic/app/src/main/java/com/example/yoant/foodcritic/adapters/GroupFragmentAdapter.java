@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yoant.foodcritic.R;
-import com.example.yoant.foodcritic.core.FoodGroup;
+import com.example.yoant.foodcritic.models.FoodGroup;
 
 public class GroupFragmentAdapter extends RecyclerView.Adapter<GroupFragmentAdapter.VViewHolder> {
     private static final String TAG = "GroupFragmentAdapter";

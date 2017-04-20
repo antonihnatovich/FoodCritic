@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.VitaminsRecyclerViewAdapter;
-import com.example.yoant.foodcritic.core.FoodGroup;
+import com.example.yoant.foodcritic.models.FoodGroup;
 
 
 public class VitaminsFragment extends Fragment {

@@ -12,22 +12,18 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yoant.foodcritic.R;
-import com.example.yoant.foodcritic.core.Product;
-import com.example.yoant.foodcritic.core.ProductHeh;
-
-import org.w3c.dom.Text;
+import com.example.yoant.foodcritic.models.Product;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
-    private ProductHeh[] mProductList;
+    private Product[] mProductList;
     private Context mContext;
     private List<Image> images;
     private String imgURL = "http://hitgid.com/images/%D1%84%D1%80%D1%83%D0%BA%D1%82%D1%8B-7.jpg";
 
-    public ProductAdapter(ProductHeh[] products, Context context){
+    public ProductAdapter(Product[] products, Context context){
         mProductList = products;
         mContext = context;
     }
@@ -42,7 +38,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(ProductViewHolder holder, int position) {
 
-        ProductHeh product = mProductList[position];
+        Product product = mProductList[position];
         holder.productImage.setImageResource(R.drawable.vitamins_fruit_logo);
         Glide.with(mContext).load(imgURL).thumbnail(0.5f).crossFade().diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.productImage);
 
