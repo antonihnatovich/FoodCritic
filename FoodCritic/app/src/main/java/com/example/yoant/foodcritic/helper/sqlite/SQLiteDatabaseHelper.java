@@ -73,6 +73,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_PRODUCTS_FAVORITE + " INTEGER);";
 
         sqLiteDatabase.execSQL(DATABASE_CREATE);
+
     }
 
     @Override
@@ -165,14 +166,14 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
                     int image = cursor.getInt(1);
-                    String name = cursor.getString(0);
-                    String additional = cursor.getString(1);
-                    double protein = cursor.getDouble(0);
-                    double fat = cursor.getDouble(1);
-                    double carbon = cursor.getDouble(2);
-                    double energy = cursor.getDouble(3);
-                    int productId = cursor.getInt(0);
-                    boolean isFavorite = cursor.getInt(2) == 1;
+                    String name = cursor.getString(cursor.getColumnIndex(KEY_PRODUCTS_NAME));
+                    String additional = cursor.getString(cursor.getColumnIndex(KEY_PRODUCTS_ADDITIONAL));
+                    double protein = cursor.getDouble(cursor.getColumnIndex(KEY_PRODUCTS_PROTEIN));
+                    double fat = cursor.getDouble(cursor.getColumnIndex(KEY_PRODUCTS_FAT));
+                    double carbon = cursor.getDouble(cursor.getColumnIndex(KEY_PRODUCTS_CARBON));
+                    double energy = cursor.getDouble(cursor.getColumnIndex(KEY_PRODUCTS_ENERGY));
+                    int productId = cursor.getInt(cursor.getColumnIndex(KEY_PRODUCTS_ID));
+                    boolean isFavorite = cursor.getInt(cursor.getColumnIndex(KEY_PRODUCTS_FAVORITE)) == 1;
                     Product product = new Product(productId, image, name, additional, energy, carbon, protein, fat, isFavorite);
                     products.add(product);
                     cursor.moveToNext();

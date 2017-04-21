@@ -1,16 +1,18 @@
 package com.example.yoant.foodcritic.view.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.yoant.foodcritic.R;
+import com.example.yoant.foodcritic.helper.sqlite.SQLiteDatabaseHelper;
+import com.example.yoant.foodcritic.models.Product;
 
-public class CreateProductActivity extends AppCompatActivity implements View.OnClickListener{
+public class CreateProductActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int mPictureId;
 
@@ -40,11 +42,12 @@ public class CreateProductActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.create_button_create_product:
-                //TODO realise here a creating of product and deploying it to the database
-                //TODO after use notify dataSet changed and refresh values(better just reload preview activity).
-                Intent intent = new Intent(this, MainActivity.class);
+                SQLiteDatabaseHelper db = SQLiteDatabaseHelper.getsInstance(getApplicationContext());
+                Product product = new Product(0, R.drawable.vitamins_fruit_logo, mProductName.getText().toString(), "", Double.parseDouble(mProductEnergyValue.getText().toString()), Double.parseDouble(mProductCarbonValue.getText().toString()), Double.parseDouble(mProductProteinValue.getText().toString()), Double.parseDouble(mProductFatValue.getText().toString()), false);
+                db.addProduct(product);
+                Intent intent = new Intent(this, ProductsActivity.class);
                 startActivity(intent);
                 Toast.makeText(this, "The product '" + mProductName.getText().toString() + "' has succesfully added!", Toast.LENGTH_SHORT).show();
                 break;

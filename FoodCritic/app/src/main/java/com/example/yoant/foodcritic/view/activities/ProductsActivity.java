@@ -14,9 +14,13 @@ import android.widget.Toast;
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.ProductAdapter;
 import com.example.yoant.foodcritic.adapters.RecyclerViewItemClickListener;
+import com.example.yoant.foodcritic.helper.sqlite.SQLiteDatabaseHelper;
 import com.example.yoant.foodcritic.models.Product;
 import com.example.yoant.foodcritic.helper.DividerItemDecoration;
 import com.example.yoant.foodcritic.view.fragments.ProductDetailFragment;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ProductsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -32,7 +36,16 @@ public class ProductsActivity extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.recycler_products_activity);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        ProductAdapter adapter = new ProductAdapter(Product.products, getApplicationContext());
+        SQLiteDatabaseHelper db = SQLiteDatabaseHelper.getsInstance(getApplicationContext());
+        Product[] products2 = Product.products;
+        for(Product product : products2)
+            db.addProduct(product);
+        List<Product> products = db.getAllProducts();
+        Product[] products1 = new Product[products.size()];
+        int i = 0;
+        for(Product product : products)
+            products1[i++] = product;
+        ProductAdapter adapter = new ProductAdapter(products1, getApplicationContext());
 //        adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
 

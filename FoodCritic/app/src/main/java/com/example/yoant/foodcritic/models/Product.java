@@ -111,7 +111,7 @@ public class Product {
     public static Product[] products = new Product[]{new Product(0, R.drawable.vitamins_fruit_logo, "Banana","", 16, 17, 18, 19, false)
             , new Product(1, R.drawable.vitamins_fruit_logo, "Apple","", 12, 13, 14, 15, false),
             new Product(2, R.drawable.vitamins_fruit_logo, "Arbuz","", 20, 21, 22, 23, false),
-            new Product(3, R.drawable.vitamins_fruit_logo, "Banana","", 16, 17, 18, 19, false),
-            new Product(4, R.drawable.vitamins_fruit_logo, "Banana","", 16, 17, 18, 19, false)
+            new Product(3, R.drawable.vitamins_fruit_logo, "Orange","", 16, 17, 18, 19, false),
+            new Product(4, R.drawable.vitamins_fruit_logo, "Cherry","", 16, 17, 18, 19, false)
     };
 }
