@@ -9,4 +9,5 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="vitaminsGroupItemSpacing">1dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="delete_margin">16dp</dimen>
 </resources>
