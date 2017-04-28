@@ -1,4 +1,4 @@
-package com.example.yoant.foodcritic.adapters;
+package com.example.yoant.foodcritic.adapters.curentlyused;
 
 
 import android.content.Context;

@@ -205,6 +205,24 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean deleteProductFromDatabaseByName(String name){
+        boolean flag = false;
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            db.delete(TABLE_PRODUCTS, KEY_PRODUCTS_NAME + "=?", new String[]{name});
+            db.setTransactionSuccessful();
+            flag = true;
+        }catch (SQLiteException e) {
+            Log.d(TAG, "SQLiteException caught while trying to insert all values from database " + TABLE_PRODUCTS);
+        } catch (Exception e) {
+            Log.d(TAG, "Some unexpected exception has been caught: " + e);
+        } finally {
+            db.endTransaction();
+        }
+        return flag;
+    }
+
     private ContentValues getContentValuesProduct(Product product) {
         ContentValues values = new ContentValues();
         values.put(KEY_PRODUCTS_NAME, product.getName());

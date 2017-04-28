@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yoant.foodcritic.R;
-import com.example.yoant.foodcritic.adapters.VitaminsRecyclerViewAdapter;
+import com.example.yoant.foodcritic.adapters.curentlyused.VitaminsRecyclerViewAdapter;
 import com.example.yoant.foodcritic.models.FoodGroup;
 
 

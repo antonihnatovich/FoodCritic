@@ -1,5 +1,7 @@
-package com.example.yoant.foodcritic.view.activities;
+package com.example.yoant.foodcritic.view.fragments.tab_expreiment;
 
+
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -7,111 +9,91 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
+import android.view.ViewGroup;
 
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.curentlyused.ProductAdapter;
-import com.example.yoant.foodcritic.adapters.curentlyused.RecyclerViewItemClickListener;
-import com.example.yoant.foodcritic.helper.DividerItemDecoration;
 import com.example.yoant.foodcritic.helper.sqlite.SQLiteDatabaseHelper;
 import com.example.yoant.foodcritic.models.Product;
-import com.example.yoant.foodcritic.view.fragments.ProductDetailFragment;
+import com.example.yoant.foodcritic.view.activities.CreateProductActivity;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class ProductsActivity extends AppCompatActivity {
+public class FirstFragment extends Fragment {
+    private static final String TAG = "Fruits";
     private RecyclerView mRecyclerView;
-    private Product[] mProducts1;
-    private List<Product> mProducts;
     private SQLiteDatabaseHelper mDatabase;
-    private FloatingActionButton mFloatButton;
+    private List<Product> mProducts;
+    private Context mContext;
+    private FloatingActionButton mFAB;
+    private Intent mIntent;
 
-    /*
-    The values of protein, fat, carb, energy must be double and with MAX 2 digits after dot
-     */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_products);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_products_activity);
-        mFloatButton = (FloatingActionButton) findViewById(R.id.fab);
-
-        mDatabase = SQLiteDatabaseHelper.getsInstance(getApplicationContext());
-        setSupportActionBar(toolbar);
-        setDataForAdapter();
-        setUpRecyclerView();
-
-        mRecyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(getApplicationContext(), mRecyclerView, new RecyclerViewItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                ProductDetailFragment productDetailFragment = new ProductDetailFragment();
-                Product product = mProducts1[position];
-                Bundle bundle = setUpBundleDetailProduct(product);
-                productDetailFragment.setArguments(bundle);
-                productDetailFragment.show(fragmentManager, "DialogFragment");
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-                Toast.makeText(getApplicationContext(), "Tipo Editing, Aga " + position, Toast.LENGTH_SHORT).show();
-            }
-
-            private Bundle setUpBundleDetailProduct(Product product) {
-                Bundle bundle = new Bundle();
-                bundle.putString("name", product.getName());
-                StringBuilder builder = new StringBuilder();
-                builder.append("Name: ").append(product.getName()).append('\n')
-                        .append(" Protein: ").append(product.getProtein()).append('\n')
-                        .append(" Fat: ").append(product.getFat()).append('\n')
-                        .append(" Carb: ").append(product.getCarb());
-                bundle.putString("info", builder.toString());
-                return bundle;
-            }
-        }));
-
-        mFloatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), CreateProductActivity.class);
-                intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            }
-        });
+    public static FirstFragment newInstance() {
+        FirstFragment fragment = new FirstFragment();
+        return fragment;
     }
 
-    private void setUpRecyclerView() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        ProductAdapter adapter = new ProductAdapter(mProducts, getApplicationContext());
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_first, container, false);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView1);
+        mDatabase = SQLiteDatabaseHelper.getsInstance(getContext());
+        mFAB = (FloatingActionButton)view.findViewById(R.id.floating_create_product);
+        mIntent = new Intent(getActivity(), CreateProductActivity.class);
+        mFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mIntent.putExtra("type", TAG);
+                startActivity(mIntent);
+            }
+        });
+        setDataForAdapter();
+        mContext = getContext();
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final ProductAdapter adapter = new ProductAdapter(mProducts, mContext);
+        LinearLayoutManager manager = new LinearLayoutManager(mContext);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setHasFixedSize(true);
+        adapter.notifyDataSetChanged();
         setAnimationDecorator();
-        setUpItemTouchHelper();
+        setUpItemTouchHelper(mContext);
 
     }
 
     private void setDataForAdapter() {
         if (mDatabase.getAllProducts().isEmpty()) {
-            Product[] products2 = Product.products;
-            for (Product product : products2)
+            Product[] products = Product.products;
+            for (Product product : products)
                 mDatabase.addProduct(product);
-        }
-        mProducts = mDatabase.getAllProducts();
-
+            mProducts = Arrays.asList(products);
+        } else
+            mProducts = mDatabase.getAllProducts();
     }
 
-    private void setUpItemTouchHelper() {
+    private void setUpItemTouchHelper(final Context context) {
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
             Drawable background;
@@ -121,9 +103,9 @@ public class ProductsActivity extends AppCompatActivity {
 
             private void initialise() {
                 background = new ColorDrawable(Color.RED);
-                deleteMark = ContextCompat.getDrawable(ProductsActivity.this, R.drawable.delete_24dp);
+                deleteMark = ContextCompat.getDrawable(context, R.drawable.delete_24dp);
                 deleteMark.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-                deleteMarkMargin = (int) ProductsActivity.this.getResources().getDimension(R.dimen.delete_margin) + 20;
+                deleteMarkMargin = (int) context.getResources().getDimension(R.dimen.delete_margin) + 20;
                 isInitialised = true;
             }
 
@@ -233,5 +215,6 @@ public class ProductsActivity extends AppCompatActivity {
             }
         });
     }
+
 
 }

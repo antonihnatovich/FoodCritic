@@ -25,7 +25,13 @@
             android:name=".view.activities.ProductsActivity"
             android:label="@string/title_activity_products"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.activities.CreateProductActivity"></activity>
+        <activity android:name=".view.activities.CreateProductActivity" />
+        <activity
+            android:name=".view.activities.ProductTabbedActivity"
+            android:label="@string/title_activity_product_tabbed"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".view.activities.ProductsTabActivity" />
+        <activity android:name=".view.activities.tab_experiment.TestActivity"></activity>
     </application>
 
 </manifest>

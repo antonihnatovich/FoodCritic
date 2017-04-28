@@ -17,11 +17,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.yoant.foodcritic.R;
-import com.example.yoant.foodcritic.adapters.GroupFragmentAdapter;
-import com.example.yoant.foodcritic.adapters.RecyclerViewItemClickListener;
+import com.example.yoant.foodcritic.adapters.curentlyused.GroupFragmentAdapter;
+import com.example.yoant.foodcritic.adapters.curentlyused.RecyclerViewItemClickListener;
 import com.example.yoant.foodcritic.models.FoodGroup;
 import com.example.yoant.foodcritic.helper.ItemDecorationRecyclerViewColumns;
 import com.example.yoant.foodcritic.view.activities.ProductsActivity;
+import com.example.yoant.foodcritic.view.activities.ProductsTabActivity;
+import com.example.yoant.foodcritic.view.activities.tab_experiment.TestActivity;
 
 public class VitaminsGroupFragment extends Fragment {
 
@@ -55,8 +57,10 @@ public class VitaminsGroupFragment extends Fragment {
         AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final Intent intent = new Intent(this.getActivity(), ProductsActivity.class);
+        final Intent test = new Intent(this.getActivity(), ProductsTabActivity.class);
+        final Intent test1 = new Intent(this.getActivity(), TestActivity.class);
         mRecyclerView = (RecyclerView)rootView.findViewById(R.id.recyclerView);
-        setRecyclerViewLayoutManager(intent);
+        setRecyclerViewLayoutManager(test1);
         mAdapter = new GroupFragmentAdapter(mDataSet, getContext());
         mRecyclerView.setAdapter(mAdapter);
 
