@@ -7,11 +7,12 @@
     android:id="@+id/detail_complex">
 
     <ImageView
+        android:id="@+id/detail_imageview"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/vitamins_fruit_logo"
-        android:id="@+id/detail_imageview"/>
+        />
 
     <TextView
         android:layout_width="wrap_content"

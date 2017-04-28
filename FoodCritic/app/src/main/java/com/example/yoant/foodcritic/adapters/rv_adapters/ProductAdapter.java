@@ -94,7 +94,31 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             viewHolder.energyDesc.setVisibility(View.VISIBLE);
             viewHolder.undoButton.setVisibility(View.GONE);
             viewHolder.undoButton.setOnClickListener(null);
-            holder.productImage.setImageResource(R.drawable.vitamins_fruit_logo); //TODO check without it
+            String type = mProductList.get(position).getType();
+            switch (type) {
+                case "FRUIT":
+                    holder.productImage.setImageResource(R.drawable.vitamins_fruit_logo);
+                    break;
+                case "VEGETABLE":
+                    holder.productImage.setImageResource(R.drawable.vitamins_vegetable_logo);
+                    break;
+                case "DRINK":
+                    holder.productImage.setImageResource(R.drawable.vitamins_drink_logo);
+                    break;
+                case "BAKE":
+                    holder.productImage.setImageResource(R.drawable.vitamins_bake_logo);
+                    break;
+                case "CEREAL":
+                    holder.productImage.setImageResource(R.drawable.vitamins_cereals_logo);
+                    break;
+                case "DISH":
+                    holder.productImage.setImageResource(R.drawable.vitamins_dishes_logo);
+                    break;
+                default:
+                    holder.productImage.setImageResource(R.drawable.delete_24dp);
+                    break;
+            }
+            //TODO check without it
             //Glide.with(mContext).load(imgURL).thumbnail(0.5f).crossFade().diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.productImage);
             holder.productName.setText(product.getName());
             holder.productFat.setText("" + product.getFat());
@@ -129,7 +153,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         if (mProductList.contains(product)) {
             boolean flag = helper.deleteProductFromDatabaseByName(
                     mProductList.get(position).getName());
-            if(flag) {
+            if (flag) {
                 mProductList.remove(position);
                 notifyItemRemoved(position);
             }
@@ -176,7 +200,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return mProductList.size();
     }
 
-    public void updateData(Product[] products){
+    public void updateData(Product[] products) {
         mProductList.addAll(Arrays.asList(products));
     }
 

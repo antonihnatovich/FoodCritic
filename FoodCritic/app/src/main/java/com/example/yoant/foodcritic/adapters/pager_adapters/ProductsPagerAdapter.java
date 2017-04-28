@@ -17,17 +17,17 @@ public class ProductsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return ProductsFragment.newInstance();
+                return ProductsFragment.newInstance("FRUIT");
             case 1:
-                return ProductsFragment.newInstance();
+                return ProductsFragment.newInstance("VEGETABLE");
             case 2:
-                return ProductsFragment.newInstance();
+                return ProductsFragment.newInstance("DRINK");
             case 3:
-                return ProductsFragment.newInstance();
+                return ProductsFragment.newInstance("BAKE");
             case 4:
-                return ProductsFragment.newInstance();
+                return ProductsFragment.newInstance("CEREAL");
             case 5:
-                return ProductsFragment.newInstance();
+                return ProductsFragment.newInstance("DISH");
             default:
                 return null;
         }

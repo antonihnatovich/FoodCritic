@@ -20,7 +20,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "SQLiteDatabaseHelper";
     private static final String DATABASE_NAME = "products.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public static final String TABLE_PRODUCTS = "products";
 
@@ -32,7 +32,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_PRODUCTS_CARBON = "carb";
     public static final String KEY_PRODUCTS_ENERGY = "energy";
     public static final String KEY_PRODUCTS_ADDITIONAL = "more";
-    public static final String KEY_PRODUCTS_FAVORITE = "star";
+    public static final String KEY_PRODUCTS_TYPE = "type";
 
 
     /*
@@ -70,7 +70,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_PRODUCTS_CARBON + " REAL, "
                 + KEY_PRODUCTS_ENERGY + " REAL, "
                 + KEY_PRODUCTS_ADDITIONAL + " TEXT, "
-                + KEY_PRODUCTS_FAVORITE + " INTEGER);";
+                + KEY_PRODUCTS_TYPE + " TEXT);";
 
         sqLiteDatabase.execSQL(DATABASE_CREATE);
 
@@ -81,9 +81,8 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         Log.w(SQLiteDatabaseHelper.class.getName(),
                 "Deploying new version of the products database from version "
                         + oldVersion + " to " + newVersion);
-        if (oldVersion != newVersion) {
-            db.execSQL(" DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
-            onCreate(db);
+        if (oldVersion < newVersion) {
+            db.execSQL("ALTER TABLE " + TABLE_PRODUCTS + " ADD COLUMN " + KEY_PRODUCTS_TYPE + " TEXT");
         }
     }
 
@@ -97,10 +96,6 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
         try {
             addOrUpdateProduct(product);
-
-            //ContentValues contentValues = getContentValuesProduct(product);
-
-            //db.insertOrThrow(TABLE_PRODUCTS, null, contentValues);
             db.setTransactionSuccessful();
         } catch (SQLiteException e) {
             Log.d(TAG, "Error while trying to insert value to database.");
@@ -156,11 +151,11 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         return productId;
     }
 
-    public List<Product> getAllProducts() {
+    public List<Product> getAllProducts(String type) {
         List<Product> products = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_PRODUCTS, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_PRODUCTS + " WHERE " + KEY_PRODUCTS_TYPE + " LIKE '" + type + "%'", null);
 
         try {
             if (cursor.moveToFirst()) {
@@ -173,8 +168,8 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                     double carbon = cursor.getDouble(cursor.getColumnIndex(KEY_PRODUCTS_CARBON));
                     double energy = cursor.getDouble(cursor.getColumnIndex(KEY_PRODUCTS_ENERGY));
                     int productId = cursor.getInt(cursor.getColumnIndex(KEY_PRODUCTS_ID));
-                    boolean isFavorite = cursor.getInt(cursor.getColumnIndex(KEY_PRODUCTS_FAVORITE)) == 1;
-                    Product product = new Product(productId, image, name, additional, energy, carbon, protein, fat, isFavorite);
+                    String ttype = cursor.getString(cursor.getColumnIndex(KEY_PRODUCTS_TYPE));
+                    Product product = new Product(productId, image, name, additional, energy, carbon, protein, fat, ttype);
                     products.add(product);
                     cursor.moveToNext();
                 }
@@ -190,10 +185,10 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         return products;
     }
 
-    public void deleteAllProductsFromDatabase(){
+    public void deleteAllProductsFromDatabase() {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
-        try{
+        try {
             db.delete(TABLE_PRODUCTS, null, null);
             db.setTransactionSuccessful();
         } catch (SQLiteException e) {
@@ -205,7 +200,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean deleteProductFromDatabaseByName(String name){
+    public boolean deleteProductFromDatabaseByName(String name) {
         boolean flag = false;
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
@@ -213,7 +208,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
             db.delete(TABLE_PRODUCTS, KEY_PRODUCTS_NAME + "=?", new String[]{name});
             db.setTransactionSuccessful();
             flag = true;
-        }catch (SQLiteException e) {
+        } catch (SQLiteException e) {
             Log.d(TAG, "SQLiteException caught while trying to insert all values from database " + TABLE_PRODUCTS);
         } catch (Exception e) {
             Log.d(TAG, "Some unexpected exception has been caught: " + e);
@@ -231,7 +226,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_PRODUCTS_CARBON, product.getCarb());
         values.put(KEY_PRODUCTS_ENERGY, product.getEnergeticValue());
         values.put(KEY_PRODUCTS_ADDITIONAL, product.getProductDescription());
-        values.put(KEY_PRODUCTS_FAVORITE, product.isFavorite() ? 1 : 0);
+        values.put(KEY_PRODUCTS_TYPE, product.getType());
         return values;
     }
 }

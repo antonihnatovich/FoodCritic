@@ -22,25 +22,32 @@ import android.view.ViewGroup;
 
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.rv_adapters.ProductAdapter;
+import com.example.yoant.foodcritic.adapters.rv_adapters.RecyclerViewItemClickListener;
 import com.example.yoant.foodcritic.helper.sqlite.SQLiteDatabaseHelper;
 import com.example.yoant.foodcritic.models.Product;
 import com.example.yoant.foodcritic.view.activities.CreateProductActivity;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class ProductsFragment extends Fragment {
-    private static final String TAG = "Fruits";
+    private static final String KEY_TYPE = "type";
     private RecyclerView mRecyclerView;
     private SQLiteDatabaseHelper mDatabase;
     private List<Product> mProducts;
     private Context mContext;
     private FloatingActionButton mFAB;
     private Intent mIntent;
+    private String mType;
 
-    public static ProductsFragment newInstance() {
+    public static ProductsFragment newInstance(String type) {
         ProductsFragment fragment = new ProductsFragment();
+        Bundle args = new Bundle();
+        args.putString(KEY_TYPE, type);
+        fragment.setArguments(args);
         return fragment;
+    }
+
+    public ProductsFragment() {
     }
 
     @Override
@@ -48,19 +55,19 @@ public class ProductsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_products, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView1);
         mDatabase = SQLiteDatabaseHelper.getsInstance(getContext());
-        mFAB = (FloatingActionButton)view.findViewById(R.id.floating_create_product);
+        mFAB = (FloatingActionButton) view.findViewById(R.id.floating_create_product);
         mIntent = new Intent(getActivity(), CreateProductActivity.class);
+        mType = getArguments().getString("type");
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mIntent.putExtra("type", TAG);
+                mIntent.putExtra("type", mType);
                 startActivity(mIntent);
             }
         });
@@ -72,25 +79,55 @@ public class ProductsFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         final ProductAdapter adapter = new ProductAdapter(mProducts, mContext);
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
+        mRecyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(getContext(), mRecyclerView, new RecyclerViewItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+                ProductDetailFragment productDetailFragment = new ProductDetailFragment();
+                Bundle bundle = setUpBundleDetailProduct(mProducts.get(position));
+                productDetailFragment.setArguments(bundle);
+                productDetailFragment.show(getFragmentManager(), "DialogFragment");
+            }
+        }));
         adapter.notifyDataSetChanged();
         setAnimationDecorator();
         setUpItemTouchHelper(mContext);
 
     }
 
+    private Bundle setUpBundleDetailProduct(Product product) {
+        Bundle bundle = new Bundle();
+        bundle.putString("type", mType);
+        bundle.putString("name", product.getName());
+        StringBuilder builder = new StringBuilder();
+        builder.append("Name: ").append(product.getName()).append('\n')
+                .append("Protein: ").append(product.getProtein()).append('\n')
+                .append("Fat: ").append(product.getFat()).append('\n')
+                .append("Carb: ").append(product.getCarb()).append('\n')
+                .append("Energy: ").append(product.getEnergeticValue());
+        bundle.putString("info", builder.toString());
+        return bundle;
+    }
+
+
     private void setDataForAdapter() {
-        if (mDatabase.getAllProducts().isEmpty()) {
-            Product[] products = Product.products;
-            for (Product product : products)
-                mDatabase.addProduct(product);
-            mProducts = Arrays.asList(products);
-        } else
-            mProducts = mDatabase.getAllProducts();
+//        if (mDatabase.getAllProducts(mType).isEmpty()) {
+//            Product[] products = Product.products;
+//            for (Product product : products)
+//                mDatabase.addProduct(product);
+//            mProducts = Arrays.asList(products);
+//        } else
+        mProducts = mDatabase.getAllProducts(mType);
     }
 
     private void setUpItemTouchHelper(final Context context) {

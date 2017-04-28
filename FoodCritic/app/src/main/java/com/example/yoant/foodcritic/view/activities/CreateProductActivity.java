@@ -25,6 +25,7 @@ public class CreateProductActivity extends AppCompatActivity implements View.OnC
     private EditText mProductProteinValue;
     private EditText mProductCarbonValue;
     private EditText mProductEnergyValue;
+    private String mType;
 
     private Button mCreateButton;
 
@@ -33,21 +34,19 @@ public class CreateProductActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_product);
-
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_create_product);
-        toolbar.setTitle("New Fruit");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_product);
+        mType = getIntent().getStringExtra("type");
+        toolbar.setTitle("New " + mType.substring(0, 1) + mType.substring(1, mType.length()).toLowerCase());
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        mImageButton = (ImageButton)findViewById(R.id.create_product_image_button);
+        mImageButton = (ImageButton) findViewById(R.id.create_product_image_button);
         mProductName = (EditText) findViewById(R.id.edit_text_product_name_create_product);
         mProductFatValue = (EditText) findViewById(R.id.edit_text_product_fat_create_product);
         mProductProteinValue = (EditText) findViewById(R.id.edit_text_product_protein_create_product);
         mProductCarbonValue = (EditText) findViewById(R.id.edit_text_product_carbon_create_product);
         mProductEnergyValue = (EditText) findViewById(R.id.edit_text_product_energetic_create_product);
         mCreateButton = (Button) findViewById(R.id.create_button_create_product);
-
         mImageButton.setImageResource(R.drawable.vitamins_fruit_logo);
         mCreateButton.setOnClickListener(this);
     }
@@ -57,7 +56,7 @@ public class CreateProductActivity extends AppCompatActivity implements View.OnC
         switch (view.getId()) {
             case R.id.create_button_create_product:
                 SQLiteDatabaseHelper db = SQLiteDatabaseHelper.getsInstance(getApplicationContext());
-                Product product = new Product(0, R.drawable.vitamins_fruit_logo, mProductName.getText().toString(), "", Double.parseDouble(mProductEnergyValue.getText().toString()), Double.parseDouble(mProductCarbonValue.getText().toString()), Double.parseDouble(mProductProteinValue.getText().toString()), Double.parseDouble(mProductFatValue.getText().toString()), false);
+                Product product = new Product(0, R.drawable.vitamins_fruit_logo, mProductName.getText().toString(), "", Double.parseDouble(mProductEnergyValue.getText().toString()), Double.parseDouble(mProductCarbonValue.getText().toString()), Double.parseDouble(mProductProteinValue.getText().toString()), Double.parseDouble(mProductFatValue.getText().toString()), mType);
                 db.addProduct(product);
                 Intent intent = new Intent(this, ProductsActivity.class);
                 startActivity(intent);
