@@ -1,4 +1,4 @@
-package com.example.yoant.foodcritic.helper;
+package com.example.yoant.foodcritic.helper.graphic;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

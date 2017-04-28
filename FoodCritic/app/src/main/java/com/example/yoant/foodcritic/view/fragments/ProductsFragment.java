@@ -2,12 +2,15 @@ package com.example.yoant.foodcritic.view.fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,49 +21,58 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yoant.foodcritic.R;
-import com.example.yoant.foodcritic.adapters.curentlyused.ProductAdapter;
+import com.example.yoant.foodcritic.adapters.rv_adapters.ProductAdapter;
 import com.example.yoant.foodcritic.helper.sqlite.SQLiteDatabaseHelper;
 import com.example.yoant.foodcritic.models.Product;
+import com.example.yoant.foodcritic.view.activities.CreateProductActivity;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class FruitFragment extends Fragment {
+public class ProductsFragment extends Fragment {
+    private static final String TAG = "Fruits";
     private RecyclerView mRecyclerView;
-    private List<Product> mProducts;
     private SQLiteDatabaseHelper mDatabase;
+    private List<Product> mProducts;
     private Context mContext;
+    private FloatingActionButton mFAB;
+    private Intent mIntent;
 
-
-    public static FruitFragment newInstance(int page){
-        FruitFragment fruitFragment = new FruitFragment();
-        return fruitFragment;
+    public static ProductsFragment newInstance() {
+        ProductsFragment fragment = new ProductsFragment();
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDatabase = SQLiteDatabaseHelper.getsInstance(getContext());
-        setDataForAdapter();
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_fruit, container, false);
-        //mDatabase = SQLiteDatabaseHelper.getsInstance(getContext());
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_fruits_fragment);
+        View view = inflater.inflate(R.layout.fragment_products, container, false);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView1);
+        mDatabase = SQLiteDatabaseHelper.getsInstance(getContext());
+        mFAB = (FloatingActionButton)view.findViewById(R.id.floating_create_product);
+        mIntent = new Intent(getActivity(), CreateProductActivity.class);
+        mFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mIntent.putExtra("type", TAG);
+                startActivity(mIntent);
+            }
+        });
+        setDataForAdapter();
         mContext = getContext();
-        setUpRecyclerView();
-        return inflater.inflate(R.layout.fragment_fruit, container, false);
+        return view;
     }
 
-
-    private void setUpRecyclerView() {
-
-        //mRecyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
+    @Override
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         final ProductAdapter adapter = new ProductAdapter(mProducts, mContext);
-
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
@@ -68,24 +80,17 @@ public class FruitFragment extends Fragment {
         adapter.notifyDataSetChanged();
         setAnimationDecorator();
         setUpItemTouchHelper(mContext);
-        mRecyclerView.post(new Runnable() {
-            @Override
-            public void run() {
-                mRecyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-        });
 
     }
 
     private void setDataForAdapter() {
         if (mDatabase.getAllProducts().isEmpty()) {
-            Product[] products2 = Product.products;
-            for (Product product : products2)
+            Product[] products = Product.products;
+            for (Product product : products)
                 mDatabase.addProduct(product);
-        }
-        mProducts = mDatabase.getAllProducts();
-
+            mProducts = Arrays.asList(products);
+        } else
+            mProducts = mDatabase.getAllProducts();
     }
 
     private void setUpItemTouchHelper(final Context context) {
@@ -210,5 +215,6 @@ public class FruitFragment extends Fragment {
             }
         });
     }
+
 
 }

@@ -3,7 +3,6 @@ package com.example.yoant.foodcritic.view.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,16 +15,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.yoant.foodcritic.R;
-import com.example.yoant.foodcritic.adapters.curentlyused.MenuAdapter;
+import com.example.yoant.foodcritic.adapters.rv_adapters.MenuAdapter;
 import com.example.yoant.foodcritic.models.MainMenuElement;
-import com.example.yoant.foodcritic.view.activities.tab_experiment.TestActivity;
-import com.example.yoant.foodcritic.view.fragments.VitaminsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView listView;
     private List<String> list = new ArrayList<>();
@@ -38,7 +35,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         listView = (ListView) findViewById(R.id.listView);
-        final Intent intent = new Intent(this, TestActivity.class);
+        final Intent intent = new Intent(this, ProductsActivity.class);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -88,12 +85,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(this, VitaminsFragment.class);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        VitaminsFragment fragment = new VitaminsFragment();
-        transaction.replace(R.id.content_main, fragment);
-        transaction.commit();
-    }
 }

@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.helper.sqlite.SQLiteDatabaseHelper;
 import com.example.yoant.foodcritic.models.Product;
-import com.example.yoant.foodcritic.view.activities.tab_experiment.TestActivity;
 
 public class CreateProductActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -60,7 +59,7 @@ public class CreateProductActivity extends AppCompatActivity implements View.OnC
                 SQLiteDatabaseHelper db = SQLiteDatabaseHelper.getsInstance(getApplicationContext());
                 Product product = new Product(0, R.drawable.vitamins_fruit_logo, mProductName.getText().toString(), "", Double.parseDouble(mProductEnergyValue.getText().toString()), Double.parseDouble(mProductCarbonValue.getText().toString()), Double.parseDouble(mProductProteinValue.getText().toString()), Double.parseDouble(mProductFatValue.getText().toString()), false);
                 db.addProduct(product);
-                Intent intent = new Intent(this, TestActivity.class);
+                Intent intent = new Intent(this, ProductsActivity.class);
                 startActivity(intent);
                 Toast.makeText(this, "The product '" + mProductName.getText().toString() + "' has succesfully added!", Toast.LENGTH_SHORT).show();
                 break;
@@ -71,7 +70,7 @@ public class CreateProductActivity extends AppCompatActivity implements View.OnC
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, TestActivity.class);
+                Intent intent = new Intent(this, ProductsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();

@@ -1,4 +1,4 @@
-package com.example.yoant.foodcritic.adapters.curentlyused;
+package com.example.yoant.foodcritic.adapters.rv_adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,8 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.helper.sqlite.SQLiteDatabaseHelper;
 import com.example.yoant.foodcritic.models.Product;
