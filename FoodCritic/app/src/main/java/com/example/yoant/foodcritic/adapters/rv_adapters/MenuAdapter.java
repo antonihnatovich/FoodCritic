@@ -49,7 +49,7 @@ public class MenuAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder = new ViewHolder();
-        View mainView = layoutInflater.inflate(R.layout.menu_element, null);
+        View mainView = layoutInflater.inflate(R.layout.main_menu_element, null);
 
         viewHolder.imageView = (ImageView) mainView.findViewById(R.id.menu_element_icon);
         viewHolder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
