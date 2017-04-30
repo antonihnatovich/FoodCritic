@@ -14,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.rv_adapters.ProductAdapter;
 import com.example.yoant.foodcritic.adapters.rv_adapters.RecyclerViewItemClickListener;
+import com.example.yoant.foodcritic.helper.graphic.WithLogoDividerItemDecoration;
 import com.example.yoant.foodcritic.helper.sqlite.SQLiteDatabaseHelper;
 import com.example.yoant.foodcritic.models.Product;
 import com.example.yoant.foodcritic.view.activities.CreateProductActivity;
@@ -85,6 +87,7 @@ public class ProductsFragment extends Fragment {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
+        mRecyclerView.addItemDecoration(new WithLogoDividerItemDecoration(mContext, OrientationHelper.VERTICAL));
         mRecyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(getContext(), mRecyclerView, new RecyclerViewItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
