@@ -1,34 +1,58 @@
 package com.example.yoant.foodcritic.view.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.example.yoant.foodcritic.R;
-import com.example.yoant.foodcritic.adapters.rv_adapters.ThreeTypesMenuAdapter;
-import com.example.yoant.foodcritic.models.FoodMenuElement;
-import com.example.yoant.foodcritic.view.fragments.MenuFragment;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.yoant.foodcritic.adapters.pager_adapters.MenuPagerAdapter;
+import com.example.yoant.foodcritic.helper.constants.DayName;
 
 public class MenuActivity extends AppCompatActivity {
-
-    private List<FoodMenuElement> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        getSupportFragmentManager().beginTransaction().replace(R.id.menu_activity_container, MenuFragment.newInstance()).commit();
-//        getData();
-//        RecyclerView mRecyclerView = (RecyclerView)findViewById(R.id.menu_activity_recycler);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        ThreeTypesMenuAdapter adapter = new ThreeTypesMenuAdapter(mList, this);
-//        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-//        mRecyclerView.setAdapter(adapter);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.menu_toolbar);
+        mToolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("My Menu's");
+
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.menu_viewpager);
+        FragmentPagerAdapter mAdapter = new MenuPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(mAdapter);
+
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.menu_tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText(DayName.MONDAY));
+        tabLayout.addTab(tabLayout.newTab().setText(DayName.TUESDAY));
+        tabLayout.addTab(tabLayout.newTab().setText(DayName.WEDNESDAY));
+        tabLayout.addTab(tabLayout.newTab().setText(DayName.THURSDAY));
+        tabLayout.addTab(tabLayout.newTab().setText(DayName.FRIDAY));
+        tabLayout.addTab(tabLayout.newTab().setText(DayName.SATURDAY));
+        tabLayout.addTab(tabLayout.newTab().setText(DayName.SUNDAY));
+        tabLayout.setupWithViewPager(mViewPager);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

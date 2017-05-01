@@ -2,11 +2,8 @@ package com.example.yoant.foodcritic.view.fragments;
 
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -31,10 +28,15 @@ public class MenuFragment extends Fragment {
     public MenuFragment() {
     }
 
-    public static final MenuFragment newInstance(){
+    public static final MenuFragment newInstance(String dayOfWeek){
         MenuFragment fragment = new MenuFragment();
         return fragment;
     }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

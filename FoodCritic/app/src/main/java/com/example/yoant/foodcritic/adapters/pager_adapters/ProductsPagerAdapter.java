@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.yoant.foodcritic.helper.constants.FoodType;
 import com.example.yoant.foodcritic.view.fragments.ProductsFragment;
 
 public class ProductsPagerAdapter extends FragmentPagerAdapter {
@@ -17,17 +18,17 @@ public class ProductsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return ProductsFragment.newInstance("FRUIT");
+                return ProductsFragment.newInstance(FoodType.FRUIT);
             case 1:
-                return ProductsFragment.newInstance("VEGETABLE");
+                return ProductsFragment.newInstance(FoodType.VEGETABLE);
             case 2:
-                return ProductsFragment.newInstance("DRINK");
+                return ProductsFragment.newInstance(FoodType.DRINK);
             case 3:
-                return ProductsFragment.newInstance("BAKE");
+                return ProductsFragment.newInstance(FoodType.BAKE);
             case 4:
-                return ProductsFragment.newInstance("CEREAL");
+                return ProductsFragment.newInstance(FoodType.CEREAL);
             case 5:
-                return ProductsFragment.newInstance("DISH");
+                return ProductsFragment.newInstance(FoodType.DISH);
             default:
                 return null;
         }
@@ -42,17 +43,17 @@ public class ProductsPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position){
         switch (position){
             case 0:
-                return "Fruits";
+                return FoodType.FRUIT;
             case 1:
-                return "Vegetables";
+                return FoodType.VEGETABLE;
             case 2:
-                return "Drinks";
+                return FoodType.DRINK;
             case 3:
-                return "Bake";
+                return FoodType.BAKE;
             case 4:
-                return "Cereals";
+                return FoodType.CEREAL;
             case 5:
-                return "Dishes";
+                return FoodType.DISH;
             default:
                 return null;
         }
