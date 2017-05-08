@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         listView = (ListView) findViewById(R.id.listView);
-        //final Intent intent = new Intent(this, ProductsActivity.class);
+        //final Intent intent = new Intent(this, ProductsActivity.class);//TODO release onCLicks in the adapter, disable primary, when it swiped
         final Intent intent = new Intent(this, MenuActivity.class);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

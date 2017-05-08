@@ -5,7 +5,7 @@
     tools:context="com.example.yoant.foodcritic.view.fragments.ProductsFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView1"
+        android:id="@+id/products_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

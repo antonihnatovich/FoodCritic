@@ -12,11 +12,14 @@ public class Product {
     private double carb;
     private double protein;
     private double fat;
+    private double weight;
+    private String dayName;
+    private String timeName;
 
     public Product() {
     }
 
-    public Product(long id, int picID, String name, String productDescription, double energeticValue, double carb, double protein, double fat, String type) {
+    public Product(long id, int picID, String name, String productDescription, double energeticValue, double carb, double protein, double fat, String type, double weight, String dayName, String timeName) {
         this.id = id;
         this.picID = picID;
         this.name = name;
@@ -26,6 +29,9 @@ public class Product {
         this.protein = protein;
         this.fat = fat;
         this.type = type;
+        this.dayName = dayName;
+        this.timeName = timeName;
+        this.weight = weight;
     }
 
     public int getPicID() {
@@ -108,11 +114,34 @@ public class Product {
         this.productDescription = productDescription;
     }
 
+    public String getDayName() {
+        return dayName;
+    }
 
-    public static Product[] products = new Product[]{new Product(0, R.drawable.vitamins_fruit_logo, "Banana","", 16, 17, 18, 19, "FRUIT")
-            , new Product(1, R.drawable.vitamins_fruit_logo, "Apple","", 12, 13, 14, 15, "VEGETABLE"),
-            new Product(2, R.drawable.vitamins_fruit_logo, "Arbuz","", 20, 21, 22, 23, "CEREAL"),
-            new Product(3, R.drawable.vitamins_fruit_logo, "Orange","", 16, 17, 18, 19, "DRINK"),
-            new Product(4, R.drawable.vitamins_fruit_logo, "Cherry","", 16, 17, 18, 19, "BAKE")
+    public void setDayName(String dayName) {
+        this.dayName = dayName;
+    }
+
+    public String getTimeName() {
+        return timeName;
+    }
+
+    public void setTimeName(String timeName) {
+        this.timeName = timeName;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public static Product[] products = new Product[]{new Product(0, R.drawable.vitamins_fruit_logo, "Banana","", 16, 17, 18, 19, "FRUIT", 0, null, null)
+            , new Product(1, R.drawable.vitamins_fruit_logo, "Apple","", 12, 13, 14, 15, "VEGETABLE", 0, null, null),
+            new Product(2, R.drawable.vitamins_fruit_logo, "Arbuz","", 20, 21, 22, 23, "CEREAL", 0, null, null),
+            new Product(3, R.drawable.vitamins_fruit_logo, "Orange","", 16, 17, 18, 19, "DRINK", 0, null, null),
+            new Product(4, R.drawable.vitamins_fruit_logo, "Cherry","", 16, 17, 18, 19, "BAKE", 0, null, null)
     };
 }

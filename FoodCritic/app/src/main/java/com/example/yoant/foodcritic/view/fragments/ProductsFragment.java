@@ -61,11 +61,11 @@ public class ProductsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_products, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView1);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.products_recycler);
         mDatabase = SQLiteDatabaseHelper.getsInstance(getContext());
         mFAB = (FloatingActionButton) view.findViewById(R.id.floating_create_product);
         mIntent = new Intent(getActivity(), CreateProductActivity.class);
-        mType = getArguments().getString("type");
+        mType = getArguments().getString(KEY_TYPE);
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

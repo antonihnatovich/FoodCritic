@@ -16,6 +16,9 @@ import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.helper.sqlite.SQLiteDatabaseHelper;
 import com.example.yoant.foodcritic.models.Product;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CreateProductActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int mPictureId;
@@ -26,6 +29,8 @@ public class CreateProductActivity extends AppCompatActivity implements View.OnC
     private EditText mProductCarbonValue;
     private EditText mProductEnergyValue;
     private String mType;
+    private String dayName;
+    private String timeName;
 
     private Button mCreateButton;
 
@@ -36,8 +41,19 @@ public class CreateProductActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_create_product);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_create_product);
         mType = getIntent().getStringExtra("type");
-        toolbar.setTitle("New " + mType.substring(0, 1) + mType.substring(1, mType.length()).toLowerCase());
+        dayName = "";
+        timeName = "";
+        if(getIntent().getStringExtra("DAYNAME")!=null){
+            dayName = getIntent().getStringExtra("DAYNAME");
+            timeName = getIntent().getStringExtra("TIMENAME");
+        }
+
+        if(mType != null)
+            toolbar.setTitle("New " + mType.substring(0, 1) + mType.substring(1, mType.length()).toLowerCase());
+        else
+            toolbar.setTitle("New Menu Product");
         toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setTitle("New Food");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mImageButton = (ImageButton) findViewById(R.id.create_product_image_button);
@@ -56,12 +72,26 @@ public class CreateProductActivity extends AppCompatActivity implements View.OnC
         switch (view.getId()) {
             case R.id.create_button_create_product:
                 SQLiteDatabaseHelper db = SQLiteDatabaseHelper.getsInstance(getApplicationContext());
-                Product product = new Product(0, R.drawable.vitamins_fruit_logo, mProductName.getText().toString(), "", Double.parseDouble(mProductEnergyValue.getText().toString()), Double.parseDouble(mProductCarbonValue.getText().toString()), Double.parseDouble(mProductProteinValue.getText().toString()), Double.parseDouble(mProductFatValue.getText().toString()), mType);
-                db.addProduct(product);
-                Intent intent = new Intent(this, ProductsActivity.class);
-                startActivity(intent);
-                Toast.makeText(this, "The product '" + mProductName.getText().toString() + "' has succesfully added!", Toast.LENGTH_SHORT).show();
-                break;
+                Product product = new Product(0, R.drawable.vitamins_fruit_logo, mProductName.getText().toString(), "", Double.parseDouble(mProductEnergyValue.getText().toString()), Double.parseDouble(mProductCarbonValue.getText().toString()), Double.parseDouble(mProductProteinValue.getText().toString()), Double.parseDouble(mProductFatValue.getText().toString()), mType, 0, dayName, timeName);
+                if(mType != null) {
+                    db.addProduct(product);
+                    Intent intent = new Intent(this, ProductsActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(this, "The product '" + mProductName.getText().toString() + "' has succesfully added!", Toast.LENGTH_SHORT).show();
+                } else {
+//                    db.deleteProductFromMenuTable("Retro", "FRIDAY", "LUNCH");
+                    //product.setDayName("FRIDAY");
+                    //product.setTimeName("LUNCH");
+                    db.addMenuProduct(product);
+                    //if(db.deleteProductFromMenuTable(product.getName(), product.getDayName(), product.getTimeName()))
+                       // Toast.makeText(this, "Tipo created, aga", Toast.LENGTH_SHORT).show();
+                    List<Product> list = new ArrayList<>();
+                    list = db.getAllMenuProductsByDayName("TUESDAY");
+                    System.out.println();
+                    db.deleteProductFromMenuTable(product.getName(), product.getDayName(), product.getTimeName());
+                    startActivity(new Intent(this, ProductsActivity.class));
+                }
+                    break;
         }
     }
 

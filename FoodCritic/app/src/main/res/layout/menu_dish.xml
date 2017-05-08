@@ -14,33 +14,36 @@
 
     <TextView
         android:id="@+id/menu_dish_percent_protein"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         style="@style/menu_dish_value"
         android:text="%"/>
 
     <TextView
         android:id="@+id/menu_dish_protein_value"
-        android:layout_marginEnd="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="26dp"
         style="@style/menu_dish_value"
         android:text="5"/>
 
     <TextView
         android:id="@+id/menu_dish_protein_label"
+        android:layout_marginTop="8dp"
         style="@style/menu_dish_value"
         android:text="Protein:"
-        android:paddingEnd="40dp"
+        android:paddingEnd="46dp"
         android:paddingStart="40dp"/>
 
     <TextView
         android:id="@+id/menu_dish_percent_fat"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="16dp"
         android:layout_below="@id/menu_dish_percent_protein"
         style="@style/menu_dish_value"
         android:text="%"/>
 
     <TextView
         android:id="@+id/menu_dish_fat_value"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="26dp"
         style="@style/menu_dish_value"
         android:text="12"
         android:layout_below="@id/menu_dish_protein_value"
@@ -50,20 +53,20 @@
         android:id="@+id/menu_dish_fat_label"
         style="@style/menu_dish_value"
         android:text="Fat:"
-        android:paddingEnd="40dp"
+        android:paddingEnd="46dp"
         android:paddingStart="40dp"
         android:layout_below="@id/menu_dish_protein_value"/>
 
     <TextView
         android:id="@+id/menu_dish_percent_carbon"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="16dp"
         android:layout_below="@id/menu_dish_percent_fat"
         style="@style/menu_dish_value"
         android:text="%"/>
 
     <TextView
         android:id="@+id/menu_dish_carbon_value"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="26dp"
         style="@style/menu_dish_value"
         android:layout_below="@id/menu_dish_fat_value"
         android:text="99"/>
@@ -71,7 +74,7 @@
     <TextView
         android:id="@+id/menu_dish_carbon_label"
         style="@style/menu_dish_value"
-        android:paddingEnd="40dp"
+        android:paddingEnd="46dp"
         android:paddingStart="40dp"
         android:layout_below="@id/menu_dish_fat_value"
         android:text="Carbon:"
@@ -79,23 +82,26 @@
 
     <TextView
         android:id="@+id/menu_dish_percent_energy"
-        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_below="@id/menu_dish_percent_carbon"
         style="@style/menu_dish_value"
         android:text="%"/>
 
     <TextView
         android:id="@+id/menu_dish_energy_value"
-        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="26dp"
         style="@style/menu_dish_value"
         android:layout_below="@id/menu_dish_carbon_value"
         android:text="18"/>
 
     <TextView
         android:id="@+id/menu_dish_energy_label"
+        android:layout_marginBottom="8dp"
         style="@style/menu_dish_value"
         android:text="Energy:"
-        android:paddingEnd="40dp"
+        android:paddingEnd="46dp"
         android:paddingStart="40dp"
         android:layout_below="@id/menu_dish_carbon_value"
         />

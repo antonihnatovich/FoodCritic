@@ -14,37 +14,36 @@ import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.pager_adapters.ProductsPagerAdapter;
 
 public class ProductsActivity extends AppCompatActivity {
-    FragmentPagerAdapter adapter;
-    private Toolbar mToolbar;
-    private ViewPager mViewPager;
-    private FragmentPagerAdapter mFragmentPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Toolbar mToolbar;
+        ViewPager mViewPager;
+        FragmentPagerAdapter mFragmentPagerAdapter;
+        TabLayout mTabLayout;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        final Intent intent = new Intent(this, CreateProductActivity.class);
 
-        setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
+        mToolbar   = (Toolbar) findViewById(R.id.toolbar);
+        mViewPager = (ViewPager) findViewById(R.id.vpPager);
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mFragmentPagerAdapter = new ProductsPagerAdapter(getSupportFragmentManager());
+
+        setSupportActionBar(mToolbar);
+        mToolbar.setTitleTextColor(Color.WHITE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Products Information");
 
-        mViewPager = (ViewPager) findViewById(R.id.vpPager);
-        mFragmentPagerAdapter = new ProductsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mFragmentPagerAdapter);
 
-        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Fruits"));
-        tabLayout.addTab(tabLayout.newTab().setText("Vegetables"));
-        tabLayout.addTab(tabLayout.newTab().setText("Cereals"));
-        tabLayout.addTab(tabLayout.newTab().setText("Bake"));
-        tabLayout.addTab(tabLayout.newTab().setText("Drinks"));
-        tabLayout.addTab(tabLayout.newTab().setText("Dishes"));
-        tabLayout.setupWithViewPager(mViewPager);
-
-
+        mTabLayout.addTab(mTabLayout.newTab().setText("Fruits"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Vegetables"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Cereals"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Bake"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Drinks"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Dishes"));
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
@@ -56,10 +55,8 @@ public class ProductsActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }

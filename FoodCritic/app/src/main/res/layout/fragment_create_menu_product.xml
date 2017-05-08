@@ -1,0 +1,186 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:id="@+id/create_menu_complex"
+    tools:context="com.example.yoant.foodcritic.view.fragments.CreateMenuProductFragment">
+
+    <ScrollView
+        android:id="@+id/scrollview_create_product"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/create_product_image_button">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:id="@+id/spinner_dayname_create_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginStart="50dp"/>
+
+            <Spinner
+                android:id="@+id/spinner_timename_create_menu"
+                android:layout_below="@id/spinner_dayname_create_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginStart="50dp"/>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/product_name_layout_create_menu"
+                android:layout_below="@id/spinner_timename_create_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginStart="50dp">
+
+                <EditText
+                    android:id="@+id/edit_text_product_name_create_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Product Name"
+                    android:inputType="textPersonName"
+                    android:lines="1"
+                    android:textAllCaps="false"
+                    android:textSize="14sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/product_fat_layout_create_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_name_layout_create_menu"
+                android:layout_marginEnd="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="15dp">
+
+                <EditText
+                    android:id="@+id/edit_text_product_fat_create_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Fat Value"
+                    android:inputType="numberDecimal"
+                    android:textAllCaps="false"
+                    android:textSize="14sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/product_protein_layout_create_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_fat_layout_create_menu"
+                android:layout_marginEnd="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="15dp">
+
+                <EditText
+                    android:id="@+id/edit_text_product_protein_create_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Protein Value"
+                    android:inputType="numberDecimal"
+                    android:textAllCaps="false"
+                    android:textSize="14sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/product_carbon_layout_create_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_protein_layout_create_menu"
+                android:layout_marginEnd="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="15dp">
+
+                <EditText
+                    android:id="@+id/edit_text_product_carbon_create_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Carbonhydrate Value"
+                    android:inputType="numberDecimal"
+                    android:textAllCaps="false"
+                    android:textSize="14sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/product_energetic_layout_create_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_carbon_layout_create_menu"
+                android:layout_marginEnd="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="15dp">
+
+                <EditText
+                    android:id="@+id/edit_text_product_energetic_create_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Energetic Value"
+                    android:inputType="numberDecimal"
+                    android:textAllCaps="false"
+                    android:textSize="14sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/product_weight_layout_create_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_energetic_layout_create_menu"
+                android:layout_marginEnd="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="15dp">
+
+                <EditText
+                    android:id="@+id/edit_text_product_weight_create_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Weight Value"
+                    android:inputType="numberDecimal"
+                    android:textAllCaps="false"
+                    android:textSize="14sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:weightSum="2"
+                android:layout_below="@id/product_weight_layout_create_menu"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/create_menu_create"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_green_light"
+                    android:text="Create"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"/>
+                <Button
+                    android:id="@+id/create_menu_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/holo_red_dark"
+                    android:textColor="@android:color/white"
+                    android:text="Cancel"
+                    android:layout_marginStart="5dp"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</FrameLayout>
