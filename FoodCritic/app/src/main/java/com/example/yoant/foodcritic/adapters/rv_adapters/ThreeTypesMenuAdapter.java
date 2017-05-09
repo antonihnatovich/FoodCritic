@@ -16,16 +16,37 @@ import com.example.yoant.foodcritic.models.FoodMenuElement;
 import com.example.yoant.foodcritic.view.activities.CreateProductActivity;
 import com.example.yoant.foodcritic.view.fragments.CreateMenuProductFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ThreeTypesMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<FoodMenuElement> mList;
+    private List<FoodMenuElement> mListBreakFast;
+    private List<FoodMenuElement> mListLunch;
+    private List<FoodMenuElement> mListDinner;
     private final Context mContext;
     private Intent mIntent;
     private FragmentManager fragmentManager;
 
     public ThreeTypesMenuAdapter(List<FoodMenuElement> pList, final Context pContext, FragmentManager fragmentManager) {
         mList = pList;
+        mListBreakFast = new ArrayList<>();
+        mListLunch = new ArrayList<>();
+        mListDinner = new ArrayList<>();
+        if(mList!= null)
+        for (FoodMenuElement e : mList) {
+            switch (e.getmTime()) {
+                case "BREAKFAST":
+                    mListBreakFast.add(e);
+                    break;
+                case "LUNCH":
+                    mListLunch.add(e);
+                    break;
+                case "DINNER":
+                    mListDinner.add(e);
+                    break;
+            }
+        }
         mContext = pContext;
         mIntent = new Intent(mContext, CreateProductActivity.class);
         this.fragmentManager = fragmentManager;
@@ -54,7 +75,26 @@ public class ThreeTypesMenuAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+//        int n = mListBreakFast.size(), m = mListLunch.size(), k = mListDinner.size();
         FoodMenuElement element = mList.get(position);
+//        if (position == 0)
+//            element = new FoodMenuElement(1, "Breakfast", "8:00", 0, 0, 0, 0, 12);
+//        else if (position > 0 && position < n)
+//            element = mListBreakFast.get(position - 1);
+//        else if (position == n)
+//            element = new FoodMenuElement(3, "+ Add new food", "", 0, 0, 0, 0, 0);
+//        else if (position == n + 1)
+//            element = new FoodMenuElement(1, "Lunch", "14:00", 0, 0, 0, 0, 12);
+//        else if (position > n + 1 && position < n + 1 + m)
+//            element = mListLunch.get(position - n - 1);
+//        else if (position == n + 2 + m)
+//            element = new FoodMenuElement(3, "+ Add new food", "", 0, 0, 0, 0, 0);
+//        else if (position == n + m + 3)
+//            element = new FoodMenuElement(1, "Dinner", "20:00", 0, 0, 0, 0, 12);
+//        else if (position > n + m + 3 && position < n + m + k + 3)
+//            element = mListDinner.get(position - n - m - 3);
+//        else
+//            element = new FoodMenuElement(3, "+ Add new food", "", 0, 0, 0, 0, 0);
         if (element != null) {
             switch (element.getType()) {
                 case FoodMenuElement.TIME_TYPE:
@@ -70,6 +110,8 @@ public class ThreeTypesMenuAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     ((FoodViewHolder) holder).mEnergy.setText(element.getmDailyEnergy() + "");
                     break;
                 case FoodMenuElement.BUTTON_TYPE:
+                    //Typeface roboto = Typeface.createFromAsset(mContext.getAssets(), "font/Roboto-Medium.ttf");
+                    //((ButtonViewHolder) holder).mName.setTypeface(roboto);
                     ((ButtonViewHolder) holder).mName.setText(element.getmName());
                     ((ButtonViewHolder) holder).mName.setTextColor(Color.DKGRAY);
                     ((ButtonViewHolder) holder).setItemClickListener(new ItemClickListener() {

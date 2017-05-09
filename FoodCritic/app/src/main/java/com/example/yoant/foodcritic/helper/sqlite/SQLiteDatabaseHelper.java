@@ -57,15 +57,15 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
             + KEY_PRODUCTS_TYPE + " TEXT);";
 
     private String DATABASE_CREATE_TABLE_MENU_ELEMENTS = "CREATE TABLE " + TABLE_MENU_ELEMENTS + "( "
-            +KEY_MENU_ID + " INTEGER PRIMARY KEY, "
-            +KEY_MENU_NAME + " TEXT NOT NULL, "
-            +KEY_MENU_PROTEIN + " REAL, "
-            +KEY_MENU_FAT + " REAL, "
-            +KEY_MENU_CARBON + " REAL, "
-            +KEY_MENU_ENERGY + " REAL, "
-            +KEY_MENU_WEIGHT + " INTEGER, "
-            +KEY_MENU_DAYNAME + " TEXT NOT NULL, "
-            +KEY_MENU_TIMENAME + " TEXT NOT NULL);";
+            + KEY_MENU_ID + " INTEGER PRIMARY KEY, "
+            + KEY_MENU_NAME + " TEXT NOT NULL, "
+            + KEY_MENU_PROTEIN + " REAL, "
+            + KEY_MENU_FAT + " REAL, "
+            + KEY_MENU_CARBON + " REAL, "
+            + KEY_MENU_ENERGY + " REAL, "
+            + KEY_MENU_WEIGHT + " INTEGER, "
+            + KEY_MENU_DAYNAME + " TEXT NOT NULL, "
+            + KEY_MENU_TIMENAME + " TEXT NOT NULL);";
 
 
     /*
@@ -130,14 +130,14 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     }
 
     //@TABLE_MENU
-    public void addMenuProduct(Product product){
+    public void addMenuProduct(Product product) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
-        try{
+        try {
             addOrUpdateMenuProduct(product);
             db.setTransactionSuccessful();
 
-        }catch (SQLiteException e) {
+        } catch (SQLiteException e) {
             Log.d(TAG, "Error while trying to insert value to database.");
         } catch (Exception e) {
             Log.d(TAG, "Some unexpected exception has been caught: " + e);
@@ -192,11 +192,11 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     }
 
     //@TABLE_MENU
-    private long addOrUpdateMenuProduct(Product product){
+    private long addOrUpdateMenuProduct(Product product) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         long productId = -1;
-        try{
+        try {
             ContentValues contentValues = getContentValuesMenuProduct(product);
 
             int rows = db.update(TABLE_MENU_ELEMENTS, contentValues, KEY_PRODUCTS_NAME + "= ? AND " + KEY_MENU_DAYNAME + " = ? AND " + KEY_MENU_TIMENAME + " = ?", new String[]{product.getName(), product.getDayName(), product.getTimeName()});
@@ -222,7 +222,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                 productId = db.insertOrThrow(TABLE_MENU_ELEMENTS, null, contentValues);
                 db.setTransactionSuccessful();
             }
-        }catch (SQLiteException e) {
+        } catch (SQLiteException e) {
             Log.d(TAG, "Error happened while inserting or updating product in the database.");
         } catch (Exception e) {
             Log.d(TAG, "Some unexpected exception has been caught: " + e);
@@ -268,7 +268,42 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     }
 
     //@TABLE_MENU
-    public List<Product> getAllMenuProductsByDayName(String dayNamee){
+    public List<Product> getAllMenuProduct() {
+        List<Product> list = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_MENU_ELEMENTS, null);
+        try {
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    String name = cursor.getString(cursor.getColumnIndex(KEY_MENU_NAME));
+                    String dayName = cursor.getString(cursor.getColumnIndex(KEY_MENU_DAYNAME));
+                    String timeName = cursor.getString(cursor.getColumnIndex(KEY_MENU_TIMENAME));
+                    double protein = cursor.getDouble(cursor.getColumnIndex(KEY_MENU_PROTEIN));
+                    double fat = cursor.getDouble(cursor.getColumnIndex(KEY_MENU_FAT));
+                    double carbon = cursor.getDouble(cursor.getColumnIndex(KEY_MENU_CARBON));
+                    double energy = cursor.getDouble(cursor.getColumnIndex(KEY_MENU_ENERGY));
+                    int weight = cursor.getInt(cursor.getColumnIndex(KEY_MENU_WEIGHT));
+                    int productId = cursor.getInt(cursor.getColumnIndex(KEY_MENU_ID));
+                    Product product = new Product(productId, 0, name, "", energy, carbon, protein, fat, "", weight, dayName, timeName);
+                    list.add(product);
+                    cursor.moveToNext();
+                }
+            }
+
+        } catch (SQLiteException e) {
+            Log.d(TAG, "SQLiteException caught while trying to insert all values from database " + TABLE_PRODUCTS);
+        } catch (Exception e) {
+            Log.d(TAG, "Some unexpected exception has been caught: " + e);
+        } finally {
+            if (cursor != null && !cursor.isClosed())
+                cursor.close();
+        }
+        return list;
+    }
+
+    //@TABLE_MENU
+    public List<Product> getAllMenuProductsByDayName(String dayNamee) {
         List<Product> list = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_MENU_ELEMENTS + " WHERE " + KEY_MENU_DAYNAME + " LIKE '" + dayNamee + "%'", null);
@@ -290,7 +325,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                 }
             }
 
-        }catch (SQLiteException e) {
+        } catch (SQLiteException e) {
             Log.d(TAG, "SQLiteException caught while trying to insert all values from database " + TABLE_PRODUCTS);
         } catch (Exception e) {
             Log.d(TAG, "Some unexpected exception has been caught: " + e);
@@ -307,6 +342,22 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         db.beginTransaction();
         try {
             db.delete(TABLE_PRODUCTS, null, null);
+            db.setTransactionSuccessful();
+        } catch (SQLiteException e) {
+            Log.d(TAG, "SQLiteException caught while trying to insert all values from database " + TABLE_PRODUCTS);
+        } catch (Exception e) {
+            Log.d(TAG, "Some unexpected exception has been caught: " + e);
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    //@TABLE_MENU
+    public void deleteAllProductsFromMenu() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            db.delete(TABLE_MENU_ELEMENTS, null, null);
             db.setTransactionSuccessful();
         } catch (SQLiteException e) {
             Log.d(TAG, "SQLiteException caught while trying to insert all values from database " + TABLE_PRODUCTS);
@@ -338,15 +389,15 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
 
     //@TABLE_MENU
-    public boolean deleteProductFromMenuTable(String name, String dayName, String timeName){
+    public boolean deleteProductFromMenuTable(String name, String dayName, String timeName) {
         boolean flag = false;
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
-        try{
-            db.delete(TABLE_MENU_ELEMENTS, KEY_MENU_NAME + "='" + name +  "' and " + KEY_MENU_DAYNAME + "='" + dayName + "' and " + KEY_MENU_TIMENAME + "='" + timeName + "'", null);
+        try {
+            db.delete(TABLE_MENU_ELEMENTS, KEY_MENU_NAME + "='" + name + "' and " + KEY_MENU_DAYNAME + "='" + dayName + "' and " + KEY_MENU_TIMENAME + "='" + timeName + "'", null);
             db.setTransactionSuccessful();
             flag = true;
-        }catch (SQLiteException e) {
+        } catch (SQLiteException e) {
             Log.d(TAG, "SQLiteException caught while trying to insert all values from database " + TABLE_PRODUCTS);
         } catch (Exception e) {
             Log.d(TAG, "Some unexpected exception has been caught: " + e);
@@ -370,7 +421,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     }
 
     //@TABLE_MENU
-    private ContentValues getContentValuesMenuProduct(Product product){
+    private ContentValues getContentValuesMenuProduct(Product product) {
         ContentValues values = new ContentValues();
         values.put(KEY_MENU_NAME, product.getName());
         values.put(KEY_MENU_PROTEIN, product.getProtein());

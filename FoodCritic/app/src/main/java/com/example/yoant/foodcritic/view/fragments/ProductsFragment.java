@@ -129,7 +129,7 @@ public class ProductsFragment extends Fragment {
 //            for (Product product : products)
 //                mDatabase.addProduct(product);
 //            mProducts = Arrays.asList(products);
-//        } else
+//        } else //TODO check this code fragment, there was some trouble
         mProducts = mDatabase.getAllProducts(mType);
     }
 
@@ -255,6 +255,4 @@ public class ProductsFragment extends Fragment {
             }
         });
     }
-
-
 }

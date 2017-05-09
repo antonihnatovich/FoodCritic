@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         listView = (ListView) findViewById(R.id.listView);
-        //final Intent intent = new Intent(this, ProductsActivity.class);//TODO release onCLicks in the adapter, disable primary, when it swiped
-        final Intent intent = new Intent(this, MenuActivity.class);
+        final Intent intentToVitamins = new Intent(this, ProductsActivity.class);//TODO release onCLicks in the adapter, disable primary, when it swiped
+        final Intent intentToMenu = new Intent(this, MenuActivity.class);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -50,7 +50,15 @@ public class MainActivity extends AppCompatActivity
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(intent);
+                switch (i) {
+                    case 0:
+                        startActivity(intentToVitamins);
+                        break;
+                    default:
+                        startActivity(intentToMenu);
+                        break;
+                }
+
             }
         });
     }

@@ -16,20 +16,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/create_menu_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Day of week:"
+                android:textSize="12sp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginStart="50dp"/>
+
             <Spinner
                 android:id="@+id/spinner_dayname_create_menu"
+                android:layout_below="@id/create_menu_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginStart="50dp"/>
+
+            <TextView
+                android:id="@+id/create_menu_label2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/spinner_dayname_create_menu"
+                android:text="Eat time:"
+                android:textSize="12sp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="50dp"
                 android:layout_marginStart="50dp"/>
 
             <Spinner
                 android:id="@+id/spinner_timename_create_menu"
-                android:layout_below="@id/spinner_dayname_create_menu"
+                android:layout_below="@id/create_menu_label2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_marginEnd="50dp"
                 android:layout_marginStart="50dp"/>
 
@@ -39,7 +58,7 @@
                 android:layout_below="@id/spinner_timename_create_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="50dp"
                 android:layout_marginStart="50dp">
 
@@ -49,6 +68,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Product Name"
                     android:inputType="textPersonName"
+                    android:layout_marginTop="8dp"
                     android:lines="1"
                     android:textAllCaps="false"
                     android:textSize="14sp" />
@@ -61,13 +81,14 @@
                 android:layout_below="@id/product_name_layout_create_menu"
                 android:layout_marginEnd="50dp"
                 android:layout_marginStart="50dp"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="16dp">
 
                 <EditText
                     android:id="@+id/edit_text_product_fat_create_menu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Fat Value"
+                    android:layout_marginTop="8dp"
                     android:inputType="numberDecimal"
                     android:textAllCaps="false"
                     android:textSize="14sp" />
@@ -80,13 +101,14 @@
                 android:layout_below="@id/product_fat_layout_create_menu"
                 android:layout_marginEnd="50dp"
                 android:layout_marginStart="50dp"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="16dp">
 
                 <EditText
                     android:id="@+id/edit_text_product_protein_create_menu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Protein Value"
+                    android:layout_marginTop="8dp"
                     android:inputType="numberDecimal"
                     android:textAllCaps="false"
                     android:textSize="14sp" />
@@ -99,7 +121,7 @@
                 android:layout_below="@id/product_protein_layout_create_menu"
                 android:layout_marginEnd="50dp"
                 android:layout_marginStart="50dp"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="16dp">
 
                 <EditText
                     android:id="@+id/edit_text_product_carbon_create_menu"
@@ -108,6 +130,7 @@
                     android:hint="Carbonhydrate Value"
                     android:inputType="numberDecimal"
                     android:textAllCaps="false"
+                    android:layout_marginTop="8dp"
                     android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
 
@@ -118,7 +141,7 @@
                 android:layout_below="@id/product_carbon_layout_create_menu"
                 android:layout_marginEnd="50dp"
                 android:layout_marginStart="50dp"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="16dp">
 
                 <EditText
                     android:id="@+id/edit_text_product_energetic_create_menu"
@@ -127,6 +150,7 @@
                     android:hint="Energetic Value"
                     android:inputType="numberDecimal"
                     android:textAllCaps="false"
+                    android:layout_marginTop="8dp"
                     android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
 
@@ -137,7 +161,7 @@
                 android:layout_below="@id/product_energetic_layout_create_menu"
                 android:layout_marginEnd="50dp"
                 android:layout_marginStart="50dp"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="16dp">
 
                 <EditText
                     android:id="@+id/edit_text_product_weight_create_menu"
@@ -146,6 +170,7 @@
                     android:hint="Weight Value"
                     android:inputType="numberDecimal"
                     android:textAllCaps="false"
+                    android:layout_marginTop="8dp"
                     android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
 
@@ -155,7 +180,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="10dp"
                 android:weightSum="2"
                 android:layout_below="@id/product_weight_layout_create_menu"
                 android:orientation="horizontal">
@@ -164,7 +189,9 @@
                     android:layout_width="0dp"
                     android:layout_height="36dp"
                     android:layout_weight="1"
-                    android:background="@android:color/holo_green_light"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:background="@drawable/buttonn"
                     android:text="Create"
                     android:textAllCaps="false"
                     android:textSize="16sp"/>
@@ -173,7 +200,7 @@
                     android:layout_width="0dp"
                     android:layout_height="36dp"
                     android:layout_weight="1"
-                    android:background="@android:color/holo_red_dark"
+                    android:background="@drawable/button_cancel"
                     android:textColor="@android:color/white"
                     android:text="Cancel"
                     android:layout_marginStart="5dp"
