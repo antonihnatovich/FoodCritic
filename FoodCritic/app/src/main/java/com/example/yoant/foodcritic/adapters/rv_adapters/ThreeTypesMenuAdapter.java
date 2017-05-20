@@ -3,6 +3,7 @@ package com.example.yoant.foodcritic.adapters.rv_adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,10 +13,14 @@ import android.widget.TextView;
 
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.ItemClickListener;
+import com.example.yoant.foodcritic.helper.constants.MenuConstants;
+import com.example.yoant.foodcritic.helper.constants.TimeName;
 import com.example.yoant.foodcritic.models.FoodMenuElement;
+import com.example.yoant.foodcritic.view.activities.CreateMenuProductActivity;
 import com.example.yoant.foodcritic.view.activities.CreateProductActivity;
-import com.example.yoant.foodcritic.view.fragments.CreateMenuProductFragment;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +32,14 @@ public class ThreeTypesMenuAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private final Context mContext;
     private Intent mIntent;
     private FragmentManager fragmentManager;
+    private RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
+    private Intent createMenuItemIntent;
+    private String mType;
 
-    public ThreeTypesMenuAdapter(List<FoodMenuElement> pList, final Context pContext, FragmentManager fragmentManager) {
+    private int mDailyCalories = 0;
+    private int mCurrentCalories = 0;
+
+    public ThreeTypesMenuAdapter(List<FoodMenuElement> pList, final Context pContext, FragmentManager fragmentManager, String type, int pDailyCalories, int pDailyCurrentCalories) {
         mList = pList;
         mListBreakFast = new ArrayList<>();
         mListLunch = new ArrayList<>();
@@ -50,7 +61,12 @@ public class ThreeTypesMenuAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         mContext = pContext;
         mIntent = new Intent(mContext, CreateProductActivity.class);
         this.fragmentManager = fragmentManager;
-    }
+        mAdapter = this;
+        createMenuItemIntent = new Intent(mContext, CreateMenuProductActivity.class);
+        mType = type;
+        mDailyCalories = pDailyCalories;
+        mCurrentCalories = pDailyCurrentCalories;
+       }
 
 
     @Override
@@ -75,51 +91,39 @@ public class ThreeTypesMenuAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-//        int n = mListBreakFast.size(), m = mListLunch.size(), k = mListDinner.size();
         FoodMenuElement element = mList.get(position);
-//        if (position == 0)
-//            element = new FoodMenuElement(1, "Breakfast", "8:00", 0, 0, 0, 0, 12);
-//        else if (position > 0 && position < n)
-//            element = mListBreakFast.get(position - 1);
-//        else if (position == n)
-//            element = new FoodMenuElement(3, "+ Add new food", "", 0, 0, 0, 0, 0);
-//        else if (position == n + 1)
-//            element = new FoodMenuElement(1, "Lunch", "14:00", 0, 0, 0, 0, 12);
-//        else if (position > n + 1 && position < n + 1 + m)
-//            element = mListLunch.get(position - n - 1);
-//        else if (position == n + 2 + m)
-//            element = new FoodMenuElement(3, "+ Add new food", "", 0, 0, 0, 0, 0);
-//        else if (position == n + m + 3)
-//            element = new FoodMenuElement(1, "Dinner", "20:00", 0, 0, 0, 0, 12);
-//        else if (position > n + m + 3 && position < n + m + k + 3)
-//            element = mListDinner.get(position - n - m - 3);
-//        else
-//            element = new FoodMenuElement(3, "+ Add new food", "", 0, 0, 0, 0, 0);
         if (element != null) {
             switch (element.getType()) {
                 case FoodMenuElement.TIME_TYPE:
                     ((TimeViewHolder) holder).mName.setText(element.getmName());
                     ((TimeViewHolder) holder).mTime.setText(element.getmTime());
-                    ((TimeViewHolder) holder).mPercent.setText(element.getmDailyPercent() + "/100%");
+                    int percent = (int)((mCurrentCalories*1.0 / mDailyCalories)*100);
+                    ((TimeViewHolder) holder).mPercent.setText( percent + "/100%");
                     break;
                 case FoodMenuElement.FOOD_TYPE:
                     ((FoodViewHolder) holder).mName.setText(element.getmName());
-                    ((FoodViewHolder) holder).mProtein.setText(element.getmDailyProtein() + "");
-                    ((FoodViewHolder) holder).mFat.setText(element.getmDailyFat() + "");
-                    ((FoodViewHolder) holder).mCarbon.setText(element.getmDailyCarbon() + "");
-                    ((FoodViewHolder) holder).mEnergy.setText(element.getmDailyEnergy() + "");
+                    ((FoodViewHolder) holder).mProtein.setText((int)(element.getmDailyProtein()*1.0/ MenuConstants.PROTEIN*100) + "");
+                    ((FoodViewHolder) holder).mFat.setText(
+                            (int)(element.getmDailyFat()*1.0/MenuConstants.FAT*100) + "");
+                    ((FoodViewHolder) holder).mCarbon.setText((int)(element.getmDailyCarbon()*1.0/MenuConstants.CARBOHYDRATE*100) + "");
+                    ((FoodViewHolder) holder).mEnergy.setText((int)(element.getmDailyEnergy()*1.0/MenuConstants.CALORIES*100) + "");
                     break;
                 case FoodMenuElement.BUTTON_TYPE:
-                    //Typeface roboto = Typeface.createFromAsset(mContext.getAssets(), "font/Roboto-Medium.ttf");
-                    //((ButtonViewHolder) holder).mName.setTypeface(roboto);
                     ((ButtonViewHolder) holder).mName.setText(element.getmName());
                     ((ButtonViewHolder) holder).mName.setTextColor(Color.DKGRAY);
                     ((ButtonViewHolder) holder).setItemClickListener(new ItemClickListener() {
                         @Override
                         public void onClick(View view, int position, boolean isLongClick) {
-                            CreateMenuProductFragment fragment = new CreateMenuProductFragment();
-                            fragment.show(fragmentManager, "Kek");
-                            //mContext.startActivity(mIntent);
+                            createMenuItemIntent.putExtra("type", mType);
+                            int dayTime = 0;
+                            String timeString;
+                            if(mList.get(position - 1).getType() == 1)timeString = mList.get(position - 1).getmName();
+                            else timeString = mList.get(position - 1).getmTime();
+                            if(timeString.equals(TimeName.BREAKFAST)) dayTime = 0;
+                            else if(timeString.equals(TimeName.LUNCH)) dayTime = 1;
+                            else dayTime = 2;
+                            createMenuItemIntent.putExtra("time", dayTime);
+                            mContext.startActivity(createMenuItemIntent);
                         }
                     });
                     break;
@@ -201,5 +205,13 @@ public class ThreeTypesMenuAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             return true;
         }
 
+    }
+
+    public void setDailyCalories(int pDailyCalories){
+        mDailyCalories = pDailyCalories;
+    }
+
+    public void setmCurrentCalories(int pCurrentCalories){
+        mCurrentCalories = pCurrentCalories;
     }
 }

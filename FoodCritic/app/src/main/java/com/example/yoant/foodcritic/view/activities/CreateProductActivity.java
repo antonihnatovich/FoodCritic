@@ -21,7 +21,6 @@ import java.util.List;
 
 public class CreateProductActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private int mPictureId;
     private ImageButton mImageButton;
     private EditText mProductName;
     private EditText mProductFatValue;

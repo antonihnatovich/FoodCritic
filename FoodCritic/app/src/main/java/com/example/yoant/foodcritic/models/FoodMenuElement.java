@@ -1,5 +1,9 @@
 package com.example.yoant.foodcritic.models;
 
+import com.example.yoant.foodcritic.helper.constants.DayName;
+import com.example.yoant.foodcritic.helper.constants.TimeName;
+
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,14 +94,5 @@ public class FoodMenuElement {
 
     public void setType(int mType) {
         this.mType = mType;
-    }
-
-    public static List<FoodMenuElement> getData(){
-        List<FoodMenuElement> list = new ArrayList<>();
-        list.add(new FoodMenuElement(TIME_TYPE, "Breakfast", "8:00", 0, 0, 0, 0, 12));
-        list.add(new FoodMenuElement(FOOD_TYPE, "Ovsyanochka", "", 5, 5, 5, 5, 0));
-        list.add(new FoodMenuElement(BUTTON_TYPE, "+ Add new food", "", 0, 0, 0, 0, 0));
-
-        return list;
     }
 }

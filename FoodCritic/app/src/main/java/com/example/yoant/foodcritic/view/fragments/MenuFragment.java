@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.rv_adapters.ThreeTypesMenuAdapter;
+import com.example.yoant.foodcritic.helper.constants.TimeName;
 import com.example.yoant.foodcritic.helper.graphic.DividerItemDecoration;
 import com.example.yoant.foodcritic.helper.sqlite.SQLiteDatabaseHelper;
 import com.example.yoant.foodcritic.models.FoodMenuElement;
@@ -28,6 +29,11 @@ public class MenuFragment extends Fragment {
     private List<FoodMenuElement> mList;
     private Context mContext;
     private String mType;
+    private boolean shouldRefreshOnResume = false;
+
+    private int mDailyCalories = 2100;
+    private int mDailyCurrentCalories  = 0;
+
 
     public MenuFragment() {
     }
@@ -38,11 +44,6 @@ public class MenuFragment extends Fragment {
         args.putString(KEY_TYPE, pDayName);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -60,7 +61,9 @@ public class MenuFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mAdapter = new ThreeTypesMenuAdapter(mList, mContext, getFragmentManager());
+        mAdapter = new ThreeTypesMenuAdapter(mList, mContext, getFragmentManager(), mType, mDailyCalories, mDailyCurrentCalories);
+        mAdapter.setDailyCalories(mDailyCalories);
+        mAdapter.setmCurrentCalories(mDailyCurrentCalories);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -85,34 +88,62 @@ public class MenuFragment extends Fragment {
                 case "DINNER":
                     productsDinner.add(product);
                     break;
-            } //TODO add product values to percent converter
-        //TODO add instant view refresher after creating new menu item
-        //TODO add changing time of the dayTime parameters
+            }
         //TODO add more dayTime regime
-        //TODO add total values parameters to follow list(general percent)
+        //TODO add progress bar and perform all strong operations in the background
         int n = productsBreakfast.size(), m = productsLunch.size(), k = productsDinner.size(), timeNameCount = 3, addButtonCount = 3;
         for (int i = 0; i < n + m + k + timeNameCount + addButtonCount; i++) {
             if (i == 0)
-                mList.add(new FoodMenuElement(1, "Breakfast", "8:00", 0, 0, 0, 0, 12));
+                mList.add(new FoodMenuElement(1, TimeName.BREAKFAST, "8:00", 0, 0, 0, 0, 12));
             else if (i > 0 && i <= n) {
                 Product p = productsBreakfast.get(i - 1);
-                mList.add(new FoodMenuElement(2, p.getName(), "", (int) p.getProtein(), (int) p.getFat(), (int) p.getCarb(), (int) p.getEnergeticValue(), 1));
+                mDailyCurrentCalories += p.getEnergeticValue();
+                mList.add(new FoodMenuElement(2, p.getName(), TimeName.BREAKFAST, (int) p.getProtein(), (int) p.getFat(), (int) p.getCarb(), (int) p.getEnergeticValue(), 1));
             } else if (i == n + 1)
                 mList.add(new FoodMenuElement(3, "+ Add new food", "", 0, 0, 0, 0, 0));
             else if (i == n + 2)
-                mList.add(new FoodMenuElement(1, "Lunch", "14:00", 0, 0, 0, 0, 12));
+                mList.add(new FoodMenuElement(1, TimeName.LUNCH, "14:00", 0, 0, 0, 0, 12));
             else if (i > n + 2 && i <= n + m + 2) {
                 Product p = productsLunch.get(i - n - 3);
-                mList.add(new FoodMenuElement(2, p.getName(), "", (int) p.getProtein(), (int) p.getFat(), (int) p.getCarb(), (int) p.getEnergeticValue(), 1));
+                mDailyCurrentCalories += p.getEnergeticValue();
+                mList.add(new FoodMenuElement(2, p.getName(), TimeName.LUNCH, (int) p.getProtein(), (int) p.getFat(), (int) p.getCarb(), (int) p.getEnergeticValue(), 1));
             } else if (i == n + m + 3)
                 mList.add(new FoodMenuElement(3, "+ Add new food", "", 0, 0, 0, 0, 0));
             else if (i == n + m + 4)
-                mList.add(new FoodMenuElement(1, "Dinner", "20:00", 0, 0, 0, 0, 12));
+                mList.add(new FoodMenuElement(1, TimeName.DINNER, "20:00", 0, 0, 0, 0, 12));
             else if (i > n + m + 4 && i <= n + m + k + 4) {
                 Product p = productsDinner.get(i - n - m - 5);
-                mList.add(new FoodMenuElement(2, p.getName(), "", (int) p.getProtein(), (int) p.getFat(), (int) p.getCarb(), (int) p.getEnergeticValue(), 1));
+                mDailyCurrentCalories += p.getEnergeticValue();
+                mList.add(new FoodMenuElement(2, p.getName(), TimeName.DINNER, (int) p.getProtein(), (int) p.getFat(), (int) p.getCarb(), (int) p.getEnergeticValue(), 1));
             } else
                 mList.add(new FoodMenuElement(3, "+ Add new food", "", 0, 0, 0, 0, 0));
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        shouldRefreshOnResume = true;
+    }
+
+
+    //TODO Optimise usage of resources. Think about proper refreshing algorithm.
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(shouldRefreshOnResume){
+            mDailyCurrentCalories = 0;
+            getData();
+            mAdapter = new ThreeTypesMenuAdapter(mList, mContext, getFragmentManager(), mType, mDailyCalories, mDailyCurrentCalories);
+            mAdapter.setDailyCalories(mDailyCalories);
+            mAdapter.setmCurrentCalories(mDailyCurrentCalories);
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(mContext);
+            mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.addItemDecoration(new DividerItemDecoration(mContext, OrientationHelper.VERTICAL));
+            shouldRefreshOnResume = false;
         }
     }
 }

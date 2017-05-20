@@ -22,7 +22,8 @@
         </activity>
         <activity android:name=".view.activities.CreateProductActivity" />
         <activity android:name=".view.activities.ProductsActivity" />
-        <activity android:name=".view.activities.MenuActivity"></activity>
+        <activity android:name=".view.activities.MenuActivity" />
+        <activity android:name=".view.activities.CreateMenuProductActivity"></activity>
     </application>
 
 </manifest>

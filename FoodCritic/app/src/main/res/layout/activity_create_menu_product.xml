@@ -4,13 +4,12 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:id="@+id/create_menu_complex"
-    tools:context="com.example.yoant.foodcritic.view.fragments.CreateMenuProductFragment">
+    tools:context="com.example.yoant.foodcritic.view.activities.CreateMenuProductActivity">
 
     <ScrollView
         android:id="@+id/scrollview_create_product"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/create_product_image_button">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
