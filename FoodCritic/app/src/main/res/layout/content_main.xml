@@ -14,7 +14,7 @@
     tools:showIn="@layout/app_bar_main">
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/listView_activity_main"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
          />

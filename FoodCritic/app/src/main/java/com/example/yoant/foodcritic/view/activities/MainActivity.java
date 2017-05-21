@@ -21,46 +21,48 @@ import com.example.yoant.foodcritic.models.MainMenuElement;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnItemClick;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    private ListView listView;
+    Intent intentToVitamins;
+    Intent intentToMenu;
     private List<String> list = new ArrayList<>();
+
+    @BindView(R.id.listView_activity_main) ListView listView;
+    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.nav_view) NavigationView navigationView;
+    @OnItemClick(R.id.listView_activity_main)
+    public void onClick(AdapterView<?> adapterView, int position){
+        switch (position) {
+            case 0:
+                startActivity(intentToVitamins);
+                break;
+            default:
+                startActivity(intentToMenu);
+                break;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        listView = (ListView) findViewById(R.id.listView);
-        final Intent intentToVitamins = new Intent(this, ProductsActivity.class);//TODO release onCLicks in the adapter, disable primary, when it swiped
-        final Intent intentToMenu = new Intent(this, MenuActivity.class);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        intentToVitamins = new Intent(this, ProductsActivity.class);
+        intentToMenu = new Intent(this, MenuActivity.class);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         MenuAdapter adapter = new MenuAdapter(this, MainMenuElement.menuElements);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i) {
-                    case 0:
-                        startActivity(intentToVitamins);
-                        break;
-                    default:
-                        startActivity(intentToMenu);
-                        break;
-                }
-
-            }
-        });
     }
 
     @Override
@@ -88,7 +90,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
