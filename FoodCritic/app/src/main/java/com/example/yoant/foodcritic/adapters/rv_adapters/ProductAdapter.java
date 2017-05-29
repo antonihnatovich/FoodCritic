@@ -21,6 +21,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private static final int REMOVE_TIMEOUT = 3000;
@@ -53,79 +56,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         ProductViewHolder viewHolder = holder;
         final Product product = mProductList.get(position);
-
-
-        if (mItemsPendingRemove.contains(product)) {
-            viewHolder.itemView.setBackgroundColor(Color.RED);
-            viewHolder.productName.setVisibility(View.GONE);
-            viewHolder.productImage.setVisibility(View.GONE);
-            viewHolder.productCarb.setVisibility(View.GONE);
-            viewHolder.carbDesc.setVisibility(View.GONE);
-            viewHolder.productFat.setVisibility(View.GONE);
-            viewHolder.fatDesc.setVisibility(View.GONE);
-            viewHolder.productProt.setVisibility(View.GONE);
-            viewHolder.protDesc.setVisibility(View.GONE);
-            viewHolder.productEnergy.setVisibility(View.GONE);
-            viewHolder.energyDesc.setVisibility(View.GONE);
-            viewHolder.undoButton.setVisibility(View.VISIBLE);
-
-            viewHolder.undoButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Runnable runnable = pendingRunnables.get(product);
-                    pendingRunnables.remove(product);
-                    if (pendingRunnables != null)
-                        handler.removeCallbacks(runnable);
-                    mItemsPendingRemove.remove(product);
-                    notifyItemChanged(mProductList.indexOf(product));
-                }
-            });
-        } else {
-            viewHolder.itemView.setBackgroundColor(Color.WHITE);
-            viewHolder.productName.setVisibility(View.VISIBLE);
-            viewHolder.productImage.setVisibility(View.VISIBLE);
-            viewHolder.productCarb.setVisibility(View.VISIBLE);
-            viewHolder.carbDesc.setVisibility(View.VISIBLE);
-            viewHolder.productFat.setVisibility(View.VISIBLE);
-            viewHolder.fatDesc.setVisibility(View.VISIBLE);
-            viewHolder.productProt.setVisibility(View.VISIBLE);
-            viewHolder.protDesc.setVisibility(View.VISIBLE);
-            viewHolder.productEnergy.setVisibility(View.VISIBLE);
-            viewHolder.energyDesc.setVisibility(View.VISIBLE);
-            viewHolder.undoButton.setVisibility(View.GONE);
-            viewHolder.undoButton.setOnClickListener(null);
-            String type = mProductList.get(position).getType();
-            switch (type) {
-                case "FRUIT":
-                    holder.productImage.setImageResource(R.drawable.vitamins_fruit_logo);
-                    break;
-                case "VEGETABLE":
-                    holder.productImage.setImageResource(R.drawable.vitamins_vegetable_logo);
-                    break;
-                case "DRINK":
-                    holder.productImage.setImageResource(R.drawable.vitamins_drink_logo);
-                    break;
-                case "BAKE":
-                    holder.productImage.setImageResource(R.drawable.vitamins_bake_logo);
-                    break;
-                case "CEREAL":
-                    holder.productImage.setImageResource(R.drawable.vitamins_cereals_logo);
-                    break;
-                case "DISH":
-                    holder.productImage.setImageResource(R.drawable.vitamins_dishes_logo);
-                    break;
-                default:
-                    holder.productImage.setImageResource(R.drawable.delete_24dp);
-                    break;
-            }
-            //TODO check without it
-            //Glide.with(mContext).load(imgURL).thumbnail(0.5f).crossFade().diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.productImage);
-            holder.productName.setText(product.getName());
-            holder.productFat.setText("" + product.getFat());
-            holder.productProt.setText("" + product.getProtein());
-            holder.productEnergy.setText("" + product.getEnergeticValue());
-            holder.productCarb.setText("" + product.getCarb());
-        }
+        if (mItemsPendingRemove.contains(product))
+            showViewAsRemoved(viewHolder, product);
+        else
+            showViewAsNormal(viewHolder, product, position);
     }
 
     public void pendingRemoval(int position) {
@@ -143,6 +77,79 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             handler.postDelayed(pendingRemove, REMOVE_TIMEOUT);
             pendingRunnables.put(product, pendingRemove);
         }
+    }
+    
+    private void showViewAsRemoved(ProductViewHolder viewHolder,final Product product){
+        viewHolder.itemView.setBackgroundColor(Color.RED);
+        viewHolder.productName.setVisibility(View.GONE);
+        viewHolder.productImage.setVisibility(View.GONE);
+        viewHolder.productCarb.setVisibility(View.GONE);
+        viewHolder.carbDesc.setVisibility(View.GONE);
+        viewHolder.productFat.setVisibility(View.GONE);
+        viewHolder.fatDesc.setVisibility(View.GONE);
+        viewHolder.productProt.setVisibility(View.GONE);
+        viewHolder.protDesc.setVisibility(View.GONE);
+        viewHolder.productEnergy.setVisibility(View.GONE);
+        viewHolder.energyDesc.setVisibility(View.GONE);
+        viewHolder.undoButton.setVisibility(View.VISIBLE);
+        viewHolder.itemView.setOnClickListener(null);
+        viewHolder.undoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Runnable runnable = pendingRunnables.get(product);
+                pendingRunnables.remove(product);
+                if (pendingRunnables != null)
+                    handler.removeCallbacks(runnable);
+                mItemsPendingRemove.remove(product);
+                notifyItemChanged(mProductList.indexOf(product));
+            }
+        });
+    }
+    
+    private void showViewAsNormal(ProductViewHolder viewHolder, Product product, int position){
+        viewHolder.itemView.setBackgroundColor(Color.WHITE);
+        viewHolder.productName.setVisibility(View.VISIBLE);
+        viewHolder.productImage.setVisibility(View.VISIBLE);
+        viewHolder.productCarb.setVisibility(View.VISIBLE);
+        viewHolder.carbDesc.setVisibility(View.VISIBLE);
+        viewHolder.productFat.setVisibility(View.VISIBLE);
+        viewHolder.fatDesc.setVisibility(View.VISIBLE);
+        viewHolder.productProt.setVisibility(View.VISIBLE);
+        viewHolder.protDesc.setVisibility(View.VISIBLE);
+        viewHolder.productEnergy.setVisibility(View.VISIBLE);
+        viewHolder.energyDesc.setVisibility(View.VISIBLE);
+        viewHolder.undoButton.setVisibility(View.GONE);
+        viewHolder.undoButton.setOnClickListener(null);
+        String type = mProductList.get(position).getType();
+        switch (type) {
+            case "FRUIT":
+                viewHolder.productImage.setImageResource(R.drawable.vitamins_fruit_logo);
+                break;
+            case "VEGETABLE":
+                viewHolder.productImage.setImageResource(R.drawable.vitamins_vegetable_logo);
+                break;
+            case "DRINK":
+                viewHolder.productImage.setImageResource(R.drawable.vitamins_drink_logo);
+                break;
+            case "BAKE":
+                viewHolder.productImage.setImageResource(R.drawable.vitamins_bake_logo);
+                break;
+            case "CEREAL":
+                viewHolder.productImage.setImageResource(R.drawable.vitamins_cereals_logo);
+                break;
+            case "DISH":
+                viewHolder.productImage.setImageResource(R.drawable.vitamins_dishes_logo);
+                break;
+            default:
+                viewHolder.productImage.setImageResource(R.drawable.delete_24dp);
+                break;
+        }
+        //Glide.with(mContext).load(imgURL).thumbnail(0.5f).crossFade().diskCacheStrategy(DiskCacheStrategy.ALL).into(viewHolder.productImage);
+        viewHolder.productName.setText(product.getName());
+        viewHolder.productFat.setText("" + product.getFat());
+        viewHolder.productProt.setText("" + product.getProtein());
+        viewHolder.productEnergy.setText("" + product.getEnergeticValue());
+        viewHolder.productCarb.setText("" + product.getCarb());
     }
 
     public void remove(int position) {
@@ -167,31 +174,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
-        public ImageView productImage;
-        public TextView productName;
-        public TextView fatDesc;
-        public TextView productFat;
-        public TextView carbDesc;
-        public TextView productCarb;
-        public TextView energyDesc;
-        public TextView productEnergy;
-        public TextView protDesc;
-        public TextView productProt;
-        public Button undoButton;
+        @BindView(R.id.single_product_representation_image) ImageView productImage;
+        @BindView(R.id.single_product_representation_name) TextView productName;
+        @BindView(R.id.single_product_representation_fat) TextView fatDesc;
+        @BindView(R.id.single_product_representation_fat_value) TextView productFat;
+        @BindView(R.id.single_product_representation_carb) TextView carbDesc;
+        @BindView(R.id.single_product_representation_carb_value) TextView productCarb;
+        @BindView(R.id.single_product_representation_energy) TextView energyDesc;
+        @BindView(R.id.single_product_representation_energy_value) TextView productEnergy;
+        @BindView(R.id.single_product_representation_prot) TextView protDesc;
+        @BindView(R.id.single_product_representation_prot_value) TextView productProt;
+        @BindView(R.id.undo_button) Button undoButton;
 
         public ProductViewHolder(View view) {
             super(view);
-            productImage = (ImageView) view.findViewById(R.id.single_product_representation_image);
-            productName = (TextView) view.findViewById(R.id.single_product_representation_name);
-            carbDesc = (TextView) view.findViewById(R.id.single_product_representation_carb);
-            productCarb = (TextView) view.findViewById(R.id.single_product_representation_carb_value);
-            energyDesc = (TextView) view.findViewById(R.id.single_product_representation_energy);
-            productEnergy = (TextView) view.findViewById(R.id.single_product_representation_energy_value);
-            fatDesc = (TextView) view.findViewById(R.id.single_product_representation_fat);
-            productFat = (TextView) view.findViewById(R.id.single_product_representation_fat_value);
-            protDesc = (TextView) view.findViewById(R.id.single_product_representation_prot);
-            productProt = (TextView) view.findViewById(R.id.single_product_representation_prot_value);
-            undoButton = (Button) view.findViewById(R.id.undo_button);
+            ButterKnife.bind(this, view);
         }
     }
 

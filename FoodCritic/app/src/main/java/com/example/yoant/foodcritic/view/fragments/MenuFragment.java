@@ -22,18 +22,23 @@ import com.example.yoant.foodcritic.models.Product;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class MenuFragment extends Fragment {
     private static final String KEY_TYPE = "type";
-    private RecyclerView mRecyclerView;
     private ThreeTypesMenuAdapter mAdapter;
     private List<FoodMenuElement> mList;
     private Context mContext;
     private String mType;
     private boolean shouldRefreshOnResume = false;
-
     private int mDailyCalories = 2100;
-    private int mDailyCurrentCalories  = 0;
+    private int mDailyCurrentCalories = 0;
+    private Unbinder unbinder;
 
+    @BindView(R.id.menu_recycler)
+    RecyclerView mRecyclerView;
 
     public MenuFragment() {
     }
@@ -51,7 +56,7 @@ public class MenuFragment extends Fragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.menu_recycler);
+        unbinder = ButterKnife.bind(this, view);
         mType = getArguments().getString(KEY_TYPE);
         mContext = getContext();
         getData();
@@ -123,16 +128,20 @@ public class MenuFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-
         shouldRefreshOnResume = true;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 
     //TODO Optimise usage of resources. Think about proper refreshing algorithm.
     @Override
     public void onResume() {
         super.onResume();
-        if(shouldRefreshOnResume){
+        if (shouldRefreshOnResume) {
             mDailyCurrentCalories = 0;
             getData();
             mAdapter = new ThreeTypesMenuAdapter(mList, mContext, getFragmentManager(), mType, mDailyCalories, mDailyCurrentCalories);

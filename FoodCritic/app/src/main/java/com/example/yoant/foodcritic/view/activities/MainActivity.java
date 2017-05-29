@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -31,12 +30,17 @@ public class MainActivity extends AppCompatActivity
     Intent intentToMenu;
     private List<String> list = new ArrayList<>();
 
-    @BindView(R.id.listView_activity_main) ListView listView;
-    @BindView(R.id.drawer_layout) DrawerLayout drawer;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.listView_activity_main)
+    ListView listView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+
     @OnItemClick(R.id.listView_activity_main)
-    public void onClick(AdapterView<?> adapterView, int position){
+    public void onClick(AdapterView<?> adapterView, int position) {
         switch (position) {
             case 0:
                 startActivity(intentToVitamins);

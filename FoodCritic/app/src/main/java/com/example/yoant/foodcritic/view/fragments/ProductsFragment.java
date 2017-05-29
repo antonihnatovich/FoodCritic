@@ -29,17 +29,30 @@ import com.example.yoant.foodcritic.helper.sqlite.SQLiteDatabaseHelper;
 import com.example.yoant.foodcritic.models.Product;
 import com.example.yoant.foodcritic.view.activities.CreateProductActivity;
 
+import java.lang.annotation.Annotation;
 import java.util.List;
 
-public class ProductsFragment extends Fragment {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemLongClick;
+import butterknife.Unbinder;
+
+public class ProductsFragment extends Fragment implements OnItemLongClick{
     private static final String KEY_TYPE = "type";
-    private RecyclerView mRecyclerView;
+    @BindView(R.id.products_recycler) RecyclerView mRecyclerView;
     private SQLiteDatabaseHelper mDatabase;
     private List<Product> mProducts;
     private Context mContext;
-    private FloatingActionButton mFAB;
+    @BindView(R.id.floating_create_product) FloatingActionButton mFAB;
     private Intent mIntent;
     private String mType;
+    private Unbinder unbinder;
+    @OnClick(R.id.floating_create_product)
+    public void onFABClick(){
+        mIntent.putExtra("type", mType);
+        startActivity(mIntent);
+    }
 
     public static ProductsFragment newInstance(String type) {
         ProductsFragment fragment = new ProductsFragment();
@@ -61,18 +74,10 @@ public class ProductsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_products, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.products_recycler);
+        unbinder = ButterKnife.bind(this, view);
         mDatabase = SQLiteDatabaseHelper.getsInstance(getContext());
-        mFAB = (FloatingActionButton) view.findViewById(R.id.floating_create_product);
         mIntent = new Intent(getActivity(), CreateProductActivity.class);
         mType = getArguments().getString(KEY_TYPE);
-        mFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mIntent.putExtra("type", mType);
-                startActivity(mIntent);
-            }
-        });
         setDataForAdapter();
         mContext = getContext();
         return view;
@@ -82,7 +87,7 @@ public class ProductsFragment extends Fragment {
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final ProductAdapter adapter = new ProductAdapter(mProducts, mContext);
+        ProductAdapter adapter = new ProductAdapter(mProducts, mContext);
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
@@ -91,7 +96,7 @@ public class ProductsFragment extends Fragment {
         mRecyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(getContext(), mRecyclerView, new RecyclerViewItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+            //TODO Remove dis shit from fragment and move it to ProductAdapter
             }
 
             @Override
@@ -122,20 +127,18 @@ public class ProductsFragment extends Fragment {
         return bundle;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 
     private void setDataForAdapter() {
-//        if (mDatabase.getAllProducts(mType).isEmpty()) {
-//            Product[] products = Product.products;
-//            for (Product product : products)
-//                mDatabase.addProduct(product);
-//            mProducts = Arrays.asList(products);
-//        } else //TODO check this code fragment, there was some trouble
         mProducts = mDatabase.getAllProducts(mType);
     }
 
     private void setUpItemTouchHelper(final Context context) {
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-
             Drawable background;
             Drawable deleteMark;
             int deleteMarkMargin;
@@ -254,5 +257,15 @@ public class ProductsFragment extends Fragment {
                 super.onDraw(canvas, parent, state);
             }
         });
+    }
+
+    @Override
+    public int[] value() {
+        return new int[0];
+    }
+
+    @Override
+    public Class<? extends Annotation> annotationType() {
+        return null;
     }
 }

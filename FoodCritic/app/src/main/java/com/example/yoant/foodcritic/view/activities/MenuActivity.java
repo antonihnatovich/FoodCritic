@@ -14,23 +14,30 @@ import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.pager_adapters.MenuPagerAdapter;
 import com.example.yoant.foodcritic.helper.constants.DayName;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MenuActivity extends AppCompatActivity {
+
+    @BindView(R.id.menu_tab_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.menu_viewpager)
+    ViewPager mViewPager;
+    @BindView(R.id.menu_toolbar)
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.menu_toolbar);
+        ButterKnife.bind(this);
+
         mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("My Menu's");
-
-        ViewPager mViewPager = (ViewPager) findViewById(R.id.menu_viewpager);
         FragmentPagerAdapter mAdapter = new MenuPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
-
-        final TabLayout tabLayout = (TabLayout) findViewById(R.id.menu_tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(DayName.MONDAY));
         tabLayout.addTab(tabLayout.newTab().setText(DayName.TUESDAY));
         tabLayout.addTab(tabLayout.newTab().setText(DayName.WEDNESDAY));
@@ -50,7 +57,6 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }

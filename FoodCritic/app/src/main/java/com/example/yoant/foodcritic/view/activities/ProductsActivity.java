@@ -13,30 +13,30 @@ import android.view.MenuItem;
 import com.example.yoant.foodcritic.R;
 import com.example.yoant.foodcritic.adapters.pager_adapters.ProductsPagerAdapter;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ProductsActivity extends AppCompatActivity {
+
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.vpPager)
+    ViewPager mViewPager;
+    @BindView(R.id.tab_layout)
+    TabLayout mTabLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Toolbar mToolbar;
-        ViewPager mViewPager;
-        FragmentPagerAdapter mFragmentPagerAdapter;
-        TabLayout mTabLayout;
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
-
-        mToolbar   = (Toolbar) findViewById(R.id.toolbar);
-        mViewPager = (ViewPager) findViewById(R.id.vpPager);
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        mFragmentPagerAdapter = new ProductsPagerAdapter(getSupportFragmentManager());
-
+        ButterKnife.bind(this);
+        FragmentPagerAdapter fragmentPagerAdapter = new ProductsPagerAdapter(getSupportFragmentManager());
         setSupportActionBar(mToolbar);
         mToolbar.setTitleTextColor(Color.WHITE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Products Information");
-
-        mViewPager.setAdapter(mFragmentPagerAdapter);
-
+        mViewPager.setAdapter(fragmentPagerAdapter);
         mTabLayout.addTab(mTabLayout.newTab().setText("Fruits"));
         mTabLayout.addTab(mTabLayout.newTab().setText("Vegetables"));
         mTabLayout.addTab(mTabLayout.newTab().setText("Cereals"));

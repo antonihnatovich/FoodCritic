@@ -57,7 +57,6 @@ public class CreateProductActivity extends AppCompatActivity {
         mType = getIntent().getStringExtra("type");
         toolbar.setTitle("New " + mType.substring(0, 1) + mType.substring(1, mType.length()).toLowerCase());
         toolbar.setTitleTextColor(Color.WHITE);
-        toolbar.setTitle("New Food");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mImageButton.setImageResource(R.drawable.vitamins_fruit_logo);

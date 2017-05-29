@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/item_program_specific"
+                style="@style/Base.CardView.Component"
+                android:layout_marginTop="5dp"
+                android:text="health / fine / recommended"
+                android:textSize="12sp"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/item_program_value_name"
+                android:layout_below="@id/item_program_specific"
+                style="@style/Base.CardView.Component"
+                android:layout_marginTop="16dp"
+                android:text="DragonBorn"
+                android:textSize="20sp"
+                />
+            
+            <TextView
+                android:id="@+id/item_program_value_calories"
+                android:layout_below="@id/item_program_value_name"
+                style="@style/Base.CardView.Component"
+                android:text="3500"
+                android:textSize="14sp"/>
+            
+            <TextView
+                android:id="@+id/item_program_type_kkal"
+                style="@style/Base.CardView.Component"
+                android:layout_toEndOf="@id/item_program_value_calories"
+                android:layout_below="@id/item_program_value_name"
+                android:layout_marginStart="10dp"
+                android:text="kkal\\day"
+                android:textSize="14sp"/>
+            
+            <TextView
+                android:id="@+id/item_program_value_description"
+                android:layout_marginTop="16sp"
+                style="@style/Base.CardView.Component"
+                android:layout_marginEnd="16sp"
+                android:layout_below="@id/item_program_value_calories"
+                android:minLines="1"
+                android:maxLines="2"
+                android:text="Short description Short description Short description Short description Short description Short description Short description Short description"
+                android:textSize="14sp"/>
+
+            <Button
+                android:id="@+id/item_program_button_share"
+                android:layout_marginTop="16sp"
+                android:layout_below="@id/item_program_value_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Share"
+                style="@style/Widget.AppCompat.Button.Borderless"/>
+
+            <Button
+                android:id="@+id/item_program_button_explore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16sp"
+                android:layout_below="@id/item_program_value_description"
+                android:layout_toEndOf="@id/item_program_button_share"
+                android:text="Explore"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
