@@ -22,9 +22,9 @@ public class MenuActivity extends AppCompatActivity {
     @BindView(R.id.menu_tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.menu_viewpager)
-    ViewPager mViewPager;
+    ViewPager viewPager;
     @BindView(R.id.menu_toolbar)
-    Toolbar mToolbar;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +32,12 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         ButterKnife.bind(this);
 
-        mToolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(mToolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("My Menu's");
         FragmentPagerAdapter mAdapter = new MenuPagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mAdapter);
+        viewPager.setAdapter(mAdapter);
         tabLayout.addTab(tabLayout.newTab().setText(DayName.MONDAY));
         tabLayout.addTab(tabLayout.newTab().setText(DayName.TUESDAY));
         tabLayout.addTab(tabLayout.newTab().setText(DayName.WEDNESDAY));
@@ -45,7 +45,7 @@ public class MenuActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText(DayName.FRIDAY));
         tabLayout.addTab(tabLayout.newTab().setText(DayName.SATURDAY));
         tabLayout.addTab(tabLayout.newTab().setText(DayName.SUNDAY));
-        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override

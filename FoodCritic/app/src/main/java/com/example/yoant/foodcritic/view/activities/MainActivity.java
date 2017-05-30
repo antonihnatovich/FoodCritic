@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Intent intentToVitamins;
     Intent intentToMenu;
+    Intent intentToFoodProgram;
     private List<String> list = new ArrayList<>();
 
     @BindView(R.id.listView_activity_main)
@@ -45,8 +46,11 @@ public class MainActivity extends AppCompatActivity
             case 0:
                 startActivity(intentToVitamins);
                 break;
-            default:
+            case 1:
                 startActivity(intentToMenu);
+                break;
+            case 4:
+                startActivity(intentToFoodProgram);
                 break;
         }
     }
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         intentToVitamins = new Intent(this, ProductsActivity.class);
         intentToMenu = new Intent(this, MenuActivity.class);
+        intentToFoodProgram = new Intent(this, ProgramActivity.class);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);

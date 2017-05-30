@@ -6,12 +6,16 @@ public class FoodProgram {
     private String mDescription;
     private String[] mQualifiers;
     private int mCaloriesValue;
+    private boolean isRejected;
+    private boolean isFavorite;
 
-    public FoodProgram(String mName, String mDescription, String[] mQualifiers, int mCaloriesValue) {
+    public FoodProgram(String mName, String mDescription, String[] mQualifiers, int mCaloriesValue, boolean isFavorite, boolean isRejected) {
         this.mName = mName;
         this.mDescription = mDescription;
         this.mQualifiers = mQualifiers;
         this.mCaloriesValue = mCaloriesValue;
+        this.isFavorite = isFavorite;
+        this.isRejected = isRejected;
     }
 
     public String getName() {
@@ -44,5 +48,21 @@ public class FoodProgram {
 
     public void setCaloriesValue(int mCaloriesValue) {
         this.mCaloriesValue = mCaloriesValue;
+    }
+
+    public boolean isRejected() {
+        return isRejected;
+    }
+
+    public void setRejected(boolean rejected) {
+        isRejected = rejected;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

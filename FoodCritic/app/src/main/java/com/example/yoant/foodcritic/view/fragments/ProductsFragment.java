@@ -39,20 +39,22 @@ import butterknife.OnItemLongClick;
 import butterknife.Unbinder;
 
 public class ProductsFragment extends Fragment implements OnItemLongClick{
-    private static final String KEY_TYPE = "type";
     @BindView(R.id.products_recycler) RecyclerView mRecyclerView;
-    private SQLiteDatabaseHelper mDatabase;
-    private List<Product> mProducts;
-    private Context mContext;
     @BindView(R.id.floating_create_product) FloatingActionButton mFAB;
-    private Intent mIntent;
-    private String mType;
-    private Unbinder unbinder;
     @OnClick(R.id.floating_create_product)
     public void onFABClick(){
         mIntent.putExtra("type", mType);
         startActivity(mIntent);
     }
+
+    private static final String KEY_TYPE = "type";
+    private SQLiteDatabaseHelper mDatabase;
+    private List<Product> mProducts;
+    private Context mContext;
+    private Intent mIntent;
+    private String mType;
+    private Unbinder unbinder;
+
 
     public static ProductsFragment newInstance(String type) {
         ProductsFragment fragment = new ProductsFragment();
