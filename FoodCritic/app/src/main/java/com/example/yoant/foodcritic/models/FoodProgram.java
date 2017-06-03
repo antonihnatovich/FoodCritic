@@ -1,68 +1,65 @@
 package com.example.yoant.foodcritic.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class FoodProgram {
 
+    @SerializedName("name")
     private String mName;
+    @SerializedName("description")
     private String mDescription;
-    private String[] mQualifiers;
+    @SerializedName("filters")
+    private String mFilters;
+    @SerializedName("calories")
     private int mCaloriesValue;
-    private boolean isRejected;
-    private boolean isFavorite;
+    @SerializedName("condition")
+    private int mCondition;
 
-    public FoodProgram(String mName, String mDescription, String[] mQualifiers, int mCaloriesValue, boolean isFavorite, boolean isRejected) {
-        this.mName = mName;
-        this.mDescription = mDescription;
-        this.mQualifiers = mQualifiers;
-        this.mCaloriesValue = mCaloriesValue;
-        this.isFavorite = isFavorite;
-        this.isRejected = isRejected;
+    public FoodProgram(String pName, String pDescription, String pFilters, int pCaloriesValue, int pCondtion) {
+        this.mName = pName;
+        this.mDescription = pDescription;
+        this.mFilters = pFilters;
+        this.mCaloriesValue = pCaloriesValue;
+        mCondition = pCondtion;
     }
 
     public String getName() {
         return mName;
     }
 
-    public void setName(String mName) {
-        this.mName = mName;
+    public void setName(String pName) {
+        mName = pName;
     }
 
     public String getDescription() {
         return mDescription;
     }
 
-    public void setDescription(String mDescription) {
-        this.mDescription = mDescription;
+    public void setDescription(String pDescription) {
+        mDescription = pDescription;
     }
 
-    public String[] getQualifiers() {
-        return mQualifiers;
+    public String getFilters() {
+        return mFilters;
     }
 
-    public void setQualifiers(String[] mQualifiers) {
-        this.mQualifiers = mQualifiers;
+    public void setFilters(String pFilters) {
+        mFilters = pFilters;
     }
 
     public int getCaloriesValue() {
         return mCaloriesValue;
     }
 
-    public void setCaloriesValue(int mCaloriesValue) {
-        this.mCaloriesValue = mCaloriesValue;
+    public void setCaloriesValue(int pCaloriesValue) {
+        mCaloriesValue = pCaloriesValue;
     }
 
-    public boolean isRejected() {
-        return isRejected;
+    public int getCondition() {
+        return mCondition;
     }
 
-    public void setRejected(boolean rejected) {
-        isRejected = rejected;
-    }
-
-    public boolean isFavorite() {
-        return isFavorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
+    public void setCondition(int pCondition) {
+        mCondition = pCondition;
     }
 }

@@ -24,6 +24,9 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ThreeTypesMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<FoodMenuElement> mList;
     private List<FoodMenuElement> mListBreakFast;
@@ -164,19 +167,15 @@ public class ThreeTypesMenuAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public class FoodViewHolder extends RecyclerView.ViewHolder {
-        private TextView mName;
-        private TextView mProtein;
-        private TextView mFat;
-        private TextView mCarbon;
-        private TextView mEnergy;
+        @BindView(R.id.menu_dish_name) TextView mName;
+        @BindView(R.id.menu_dish_protein_value) TextView mProtein;
+        @BindView(R.id.menu_dish_fat_value) TextView mFat;
+        @BindView(R.id.menu_dish_carbon_value) TextView mCarbon;
+        @BindView(R.id.menu_dish_energy_value) TextView mEnergy;
 
         public FoodViewHolder(View itemView) {
             super(itemView);
-            mName = (TextView) itemView.findViewById(R.id.menu_dish_name);
-            mProtein = (TextView) itemView.findViewById(R.id.menu_dish_protein_value);
-            mFat = (TextView) itemView.findViewById(R.id.menu_dish_fat_value);
-            mCarbon = (TextView) itemView.findViewById(R.id.menu_dish_carbon_value);
-            mEnergy = (TextView) itemView.findViewById(R.id.menu_dish_energy_value);
+            ButterKnife.bind(this, itemView);
         }
     }
 

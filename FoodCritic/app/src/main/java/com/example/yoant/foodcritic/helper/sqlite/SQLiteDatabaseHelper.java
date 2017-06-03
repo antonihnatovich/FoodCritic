@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.yoant.foodcritic.models.FoodProgram;
 import com.example.yoant.foodcritic.models.Product;
 
 import java.util.ArrayList;
@@ -20,30 +21,39 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "SQLiteDatabaseHelper";
     private static final String DATABASE_NAME = "products.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
-    public static final String TABLE_PRODUCTS = "products";
-    public static final String TABLE_MENU_ELEMENTS = "products_menu";
+    private static final String TABLE_PRODUCTS = "products";
+    private static final String TABLE_MENU_ELEMENTS = "products_menu";
+    private static final String TABLE_FOOD_PROGRAM = "food_program";
 
-    public static final String KEY_PRODUCTS_ID = "_id";
-    public static final String KEY_PRODUCTS_NAME = "name";
-    public static final String KEY_PRODUCTS_IMAGE_URL = "image";
-    public static final String KEY_PRODUCTS_FAT = "fat";
-    public static final String KEY_PRODUCTS_PROTEIN = "prot";
-    public static final String KEY_PRODUCTS_CARBON = "carb";
-    public static final String KEY_PRODUCTS_ENERGY = "energy";
-    public static final String KEY_PRODUCTS_ADDITIONAL = "more";
-    public static final String KEY_PRODUCTS_TYPE = "type";
+    private static final String KEY_PRODUCTS_ID = "_id";
+    private static final String KEY_PRODUCTS_NAME = "name";
+    private static final String KEY_PRODUCTS_IMAGE_URL = "image";
+    private static final String KEY_PRODUCTS_FAT = "fat";
+    private static final String KEY_PRODUCTS_PROTEIN = "prot";
+    private static final String KEY_PRODUCTS_CARBON = "carb";
+    private static final String KEY_PRODUCTS_ENERGY = "energy";
+    private static final String KEY_PRODUCTS_ADDITIONAL = "more";
+    private static final String KEY_PRODUCTS_TYPE = "type";
 
-    public static final String KEY_MENU_ID = "_id";
-    public static final String KEY_MENU_NAME = "name";
-    public static final String KEY_MENU_PROTEIN = "prot";
-    public static final String KEY_MENU_FAT = "fat";
-    public static final String KEY_MENU_CARBON = "carbon";
-    public static final String KEY_MENU_ENERGY = "energy";
-    public static final String KEY_MENU_WEIGHT = "weight";
-    public static final String KEY_MENU_DAYNAME = "day_name";
-    public static final String KEY_MENU_TIMENAME = "time_name";
+    private static final String KEY_MENU_ID = "_id";
+    private static final String KEY_MENU_NAME = "name";
+    private static final String KEY_MENU_PROTEIN = "prot";
+    private static final String KEY_MENU_FAT = "fat";
+    private static final String KEY_MENU_CARBON = "carbon";
+    private static final String KEY_MENU_ENERGY = "energy";
+    private static final String KEY_MENU_WEIGHT = "weight";
+    private static final String KEY_MENU_DAYNAME = "day_name";
+    private static final String KEY_MENU_TIMENAME = "time_name";
+
+    private static final String KEY_PROGRAM_ID = "_id";
+    private static final String KEY_PROGRAM_NAME = "name";
+    private static final String KEY_PROGRAM_DESCRIPTION = "description";
+    private static final String KEY_PROGRAM_CALORIES = "calories";
+    private static final String KEY_PROGRAM_FILTERS = "filters";
+    private static final String KEY_PROGRAM_FAVORITE = "condition"; //-1 = rejected, 0 = normal, 1 = favorite
+
 
     private String DATABASE_CREATE_TABLE_PRODUCTS = "create table " + TABLE_PRODUCTS + "( "
             + KEY_PRODUCTS_ID + " INTEGER PRIMARY KEY, "
@@ -66,6 +76,14 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
             + KEY_MENU_WEIGHT + " INTEGER, "
             + KEY_MENU_DAYNAME + " TEXT NOT NULL, "
             + KEY_MENU_TIMENAME + " TEXT NOT NULL);";
+
+    private String DATABASE_CREATE_TABLE_FOOD_PROGRAM = "CREATE TABLE " + TABLE_FOOD_PROGRAM + "( "
+            + KEY_PROGRAM_ID + " INTEGER PRIMARY KEY, "
+            + KEY_PROGRAM_NAME + " TEXT NOT NULL, "
+            + KEY_PROGRAM_FILTERS + " TEXT NOT NULL, "
+            + KEY_PROGRAM_DESCRIPTION + " TEXT NOT NULL, "
+            + KEY_PROGRAM_CALORIES + " INTEGER, "
+            + KEY_PROGRAM_FAVORITE + " INTEGER);";
 
 
     /*
@@ -96,6 +114,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(DATABASE_CREATE_TABLE_PRODUCTS);
         sqLiteDatabase.execSQL(DATABASE_CREATE_TABLE_MENU_ELEMENTS);
+        sqLiteDatabase.execSQL(DATABASE_CREATE_TABLE_FOOD_PROGRAM);
     }
 
     @Override
@@ -104,7 +123,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                 "Deploying new version of the products database from version "
                         + oldVersion + " to " + newVersion);
         if (oldVersion < newVersion) {
-            db.execSQL(DATABASE_CREATE_TABLE_MENU_ELEMENTS);
+            db.execSQL(DATABASE_CREATE_TABLE_FOOD_PROGRAM);
         }
     }
 
@@ -116,7 +135,6 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     public void addProduct(Product product) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
-
         try {
             addOrUpdateProduct(product);
             db.setTransactionSuccessful();
@@ -146,11 +164,27 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    //@TABLE_PROGRAM
+    public void addFoodProgram(FoodProgram program) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            addOrUpdateFoodProgram(program);
+            db.setTransactionSuccessful();
+        } catch (SQLiteException e) {
+            Log.d(TAG, "Error while trying to insert value to database.");
+        } catch (Exception e) {
+            Log.d(TAG, "Some unexpected exception has been caught: " + e);
+        } finally {
+            db.endTransaction();
+        }
+    }
+
     /*
     This method allows me to properly update product values if it already exists in the database
     and add a new one if none of this product with this name exists in the database.
      */
-    private long addOrUpdateProduct(Product product) {
+    public long addOrUpdateProduct(Product product) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         long productId = -1;
@@ -164,9 +198,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
             if (rows == 1) {
                 String productSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
                         KEY_PRODUCTS_ID, TABLE_PRODUCTS, KEY_PRODUCTS_NAME);
-
                 Cursor cursor = db.rawQuery(productSelectQuery, new String[]{String.valueOf(product.getName())});
-
                 try {
                     if (cursor.moveToFirst()) {
                         productId = cursor.getInt(0);
@@ -192,7 +224,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     }
 
     //@TABLE_MENU
-    private long addOrUpdateMenuProduct(Product product) {
+    public long addOrUpdateMenuProduct(Product product) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         long productId = -1;
@@ -205,9 +237,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
             if (rows == 1) {
                 String productSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ? AND %s = ? AND %s",
                         KEY_MENU_ID, TABLE_MENU_ELEMENTS, KEY_MENU_NAME, KEY_MENU_DAYNAME, KEY_MENU_TIMENAME);
-
                 Cursor cursor = db.rawQuery(productSelectQuery, new String[]{product.getName(), product.getDayName(), product.getTimeName()});
-
                 try {
                     if (cursor.moveToFirst()) {
                         productId = cursor.getInt(cursor.getColumnIndex(KEY_MENU_ID));
@@ -230,6 +260,40 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
         return productId;
+    }
+
+    //@TABLE_PROGRAM
+    public long addOrUpdateFoodProgram(FoodProgram program) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        long programId = -1;
+        try {
+            ContentValues contentValues = getContentValuesFoodProgram(program);
+            int rows = db.update(TABLE_FOOD_PROGRAM, contentValues, KEY_PROGRAM_NAME + "= ? AND " + KEY_PROGRAM_FILTERS + "= ?", new String[]{program.getName(), program.getFilters()});
+            if (rows == 1) {
+                String programSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ? AND %s = ? AND %s", KEY_PROGRAM_ID, TABLE_FOOD_PROGRAM, KEY_PROGRAM_NAME, KEY_PROGRAM_FILTERS);
+                Cursor cursor = db.rawQuery(programSelectQuery, new String[]{program.getName(), program.getFilters()});
+                try {
+                    if (cursor.moveToFirst()) {
+                        programId = cursor.getInt(cursor.getColumnIndex(KEY_PROGRAM_ID));
+                        db.setTransactionSuccessful();
+                    }
+                } finally {
+                    if (cursor != null && !cursor.isClosed())
+                        cursor.close();
+                }
+            } else {
+                programId = db.insertOrThrow(TABLE_FOOD_PROGRAM, null, contentValues);
+                db.setTransactionSuccessful();
+            }
+        } catch (SQLiteException e) {
+            Log.d(TAG, "Error happened while inserting or updating product in the database.");
+        } catch (Exception e) {
+            Log.d(TAG, "Some unexpected exception has been caught: " + e);
+        } finally {
+            db.endTransaction();
+        }
+        return programId;
     }
 
     //@TABLE_PRODUCTS
@@ -291,6 +355,36 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
                 }
             }
 
+        } catch (SQLiteException e) {
+            Log.d(TAG, "SQLiteException caught while trying to insert all values from database " + TABLE_PRODUCTS);
+        } catch (Exception e) {
+            Log.d(TAG, "Some unexpected exception has been caught: " + e);
+        } finally {
+            if (cursor != null && !cursor.isClosed())
+                cursor.close();
+        }
+        return list;
+    }
+
+    //@TABLE_PROGRAM
+    public List<FoodProgram> getAllFoodProgramList() {
+        List<FoodProgram> list = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_FOOD_PROGRAM, null);
+        try {
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    String name = cursor.getString(cursor.getColumnIndex(KEY_PROGRAM_NAME));
+                    String description = cursor.getString(cursor.getColumnIndex(KEY_PROGRAM_DESCRIPTION));
+                    String filters = cursor.getString(cursor.getColumnIndex(KEY_PROGRAM_FILTERS));
+                    int calories = cursor.getInt(cursor.getColumnIndex(KEY_PROGRAM_CALORIES));
+                    int condition = cursor.getInt(cursor.getColumnIndex(KEY_PROGRAM_FAVORITE));
+                    FoodProgram program = new FoodProgram(name, description, filters, calories, condition);
+                    list.add(program);
+                    cursor.moveToNext();
+
+                }
+            }
         } catch (SQLiteException e) {
             Log.d(TAG, "SQLiteException caught while trying to insert all values from database " + TABLE_PRODUCTS);
         } catch (Exception e) {
@@ -368,6 +462,22 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    //@TABLE_PROGRAM
+    public void deleteAllFoodPrograms() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            db.delete(TABLE_FOOD_PROGRAM, null, null);
+            db.setTransactionSuccessful();
+        } catch (SQLiteException e) {
+            Log.d(TAG, "SQLiteException caught while trying to insert all values from database " + TABLE_PRODUCTS);
+        } catch (Exception e) {
+            Log.d(TAG, "Some unexpected exception has been caught: " + e);
+        } finally {
+            db.endTransaction();
+        }
+    }
+
     //@TABLE_PRODUCTS
     public boolean deleteProductFromDatabaseByName(String name) {
         boolean flag = false;
@@ -407,6 +517,25 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         return flag;
     }
 
+    //@TABLE_PROGRAM
+    public boolean deleteFoodProgramByNameAndFilters(String name, String filters) {
+        boolean flag = false;
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            db.delete(TABLE_FOOD_PROGRAM, KEY_PROGRAM_NAME + "='" + name + "' and " + KEY_PROGRAM_FILTERS + "='" + filters, null);
+            db.setTransactionSuccessful();
+            flag = true;
+        } catch (SQLiteException e) {
+            Log.d(TAG, "SQLiteException caught while trying to insert all values from database " + TABLE_PRODUCTS);
+        } catch (Exception e) {
+            Log.d(TAG, "Some unexpected exception has been caught: " + e);
+        } finally {
+            db.endTransaction();
+        }
+        return flag;
+    }
+
     //@TABLE_PRODUCTS
     private ContentValues getContentValuesProduct(Product product) {
         ContentValues values = new ContentValues();
@@ -431,6 +560,17 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_MENU_WEIGHT, product.getWeight());
         values.put(KEY_MENU_TIMENAME, product.getTimeName());
         values.put(KEY_MENU_DAYNAME, product.getDayName());
+        return values;
+    }
+
+    //@TABLE_PRODUCTS
+    private ContentValues getContentValuesFoodProgram(FoodProgram program) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_PROGRAM_NAME, program.getName());
+        values.put(KEY_PROGRAM_DESCRIPTION, program.getDescription());
+        values.put(KEY_PROGRAM_CALORIES, program.getCaloriesValue());
+        values.put(KEY_PROGRAM_FAVORITE, program.getCondition());
+        values.put(KEY_PROGRAM_FILTERS, program.getFilters());
         return values;
     }
 }

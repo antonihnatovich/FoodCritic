@@ -17,7 +17,7 @@ public class ProgramPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 return ProgramFragment.newInstance(ProgramType.general);
             case 1:
@@ -28,8 +28,8 @@ public class ProgramPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public CharSequence getPageTitle(int position){
-        switch (position){
+    public CharSequence getPageTitle(int position) {
+        switch (position) {
             case 0:
                 return ProgramType.general;
             case 1:

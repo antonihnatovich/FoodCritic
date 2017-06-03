@@ -1,21 +1,27 @@
-
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.yoant.foodcritic.view.fragments.ProgramFragment">
+
+    <ProgressBar
+        android:id="@+id/fragment_program_progress_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:maxHeight="50dip"
+        android:minHeight="50dip" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/fragment_program_content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_program_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"/>
-
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_program_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
     </android.support.v4.widget.SwipeRefreshLayout>
-    
-</FrameLayout>
+</RelativeLayout>
