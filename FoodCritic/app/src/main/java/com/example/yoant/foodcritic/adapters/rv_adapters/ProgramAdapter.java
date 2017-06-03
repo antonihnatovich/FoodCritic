@@ -72,27 +72,6 @@ public class ProgramAdapter extends RecyclerView.Adapter<ProgramAdapter.ProgramV
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    private View.OnClickListener favoriteButtonClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-
-        }
-    };
-
-    private View.OnClickListener learnMoreButtonClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-
-        }
-    };
-
-    private View.OnClickListener dismissButtonClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-
-        }
-    };
-
     @Override
     public int getItemCount() {
         return mProgramListAll.size();

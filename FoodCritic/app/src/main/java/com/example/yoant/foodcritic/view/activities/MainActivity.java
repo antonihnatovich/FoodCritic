@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity
     Intent intentToVitamins;
     Intent intentToMenu;
     Intent intentToFoodProgram;
+    Intent notDeveloped;
     private List<String> list = new ArrayList<>();
 
     @BindView(R.id.listView_activity_main)
@@ -52,6 +53,9 @@ public class MainActivity extends AppCompatActivity
             case 4:
                 startActivity(intentToFoodProgram);
                 break;
+            default:
+                startActivity(notDeveloped);
+                break;
         }
     }
 
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity
         intentToVitamins = new Intent(this, ProductsActivity.class);
         intentToMenu = new Intent(this, MenuActivity.class);
         intentToFoodProgram = new Intent(this, ProgramActivity.class);
+        notDeveloped = new Intent(this, AdviseActivity.class);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
